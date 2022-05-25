@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Simple Data Table</title>
+    <title>Historial producto</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -132,11 +132,6 @@
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
 
-            //FUNCION DE AGREGAR EMPLEADO NUEVO
-            $("#btnAgregarEmpleado").on("click", function(){
-                $('#agregarEmpleadoModal').modal('show'); 
-            });
-
             //FUNCION EDITAR EMPLEADO
             $(".edit").on("click", function(){
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
@@ -167,7 +162,7 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-8"><h2>Empleados</h2></div>
+                        <div class="col-sm-8"><h2>Historial Productos</h2></div>
                         <div class="col-sm-4">
                             <div class="search-box">
                                 <i class="material-icons">&#xE8B6;</i>
@@ -176,38 +171,19 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-primary" id="btnAgregarEmpleado">Agregar nuevo empleado</button>
-                </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Nombre <i class="fa fa-sort"></i></th>
-                            <th>Apellido Paterno</th>
-                            <th>Apellido Materno <i class="fa fa-sort"></i></th>
-                            <th>Telefono</th>
-                            <th>Correo <i class="fa fa-sort"></i></th>
-                            <th>Direccion</th>
-                            <th>Sueldo</th>
-                            <th>Cargo</th>
-                            <th>CURP</th>
-                            <th>RFC</th>
+                            <th>Id producto</th>
+                            <th>Precio del producto<i class="fa fa-sort"></i></th>
+                            <th>Fecha del cambio</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>Thomas garcia</td>
-                            <td>89 Chiaroscuro Rd.</td>
-                            <td>Portland</td>
-                            <td>972987654320</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
+                            <td>654321</td>
+                            <td>22/Dic/2021</td>
                             <td>
                                 <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                                 <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -216,17 +192,9 @@
                         </tr>   
                         
                         <tr>
-                            <td>2</td>
-                            <td>Thomas garcia</td>
-                            <td>89 Chiaroscuro Rd.</td>
-                            <td>Portland</td>
-                            <td>972987654320</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
-                            <td>Mexico</td>
+                            <td>5</td>
+                            <td>973659</td>
+                            <td>14/Marzo/2022</td>
                             <td>
                                 <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                                 <a data-id="2" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -252,71 +220,6 @@
         </div>        
     </div>  
     
-    <!-- ESTE ES EL MODAL PARA AGREGAR UN NUEVO REGISTRO -->
-    <div class="modal fade" id="agregarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Agregar Empleado</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="nombreEmpleadoNew">Nombre(s)</label>
-                        <input type="text" class="form-control" id="nombreEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="apellidoPEmpleadoNew">Apellido Paterno:</label>
-                        <input type="text" class="form-control" id="apellidoPEmpleadoNew" >
-                    </div>
-                    <div class="form-group">
-                        <label for="apellidoMEmpleadoNew">Apellido Materno</label>
-                        <input type="text" class="form-control" id="apellidoMEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="curpEmpleadoNew">CURP</label>
-                        <input type="text" class="form-control" id="curpEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="telefonoEmpleadoNew">Telefono</label>
-                        <input type="text" class="form-control" id="telefonoEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="correoEmpleadoNew">Correo Electronico</label>
-                        <input type="email" class="form-control" id="correoEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="direccionEmpleadoNew">Direccion</label>
-                        <input type="text" class="form-control" id="direccionEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="tipoEmpleadoNew">Tipo Empleado</label>
-                        <input type="text" class="form-control" id="tipoEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="sueldoEmpleadoNew">Sueldo</label>
-                        <input type="text" class="form-control" id="sueldoEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="cargoEmpleadoNew">Cargo</label>
-                        <input type="text" class="form-control" id="cargoEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="prestacionesEmpleadoNew">Prestaciones</label>
-                        <input type="text" class="form-control" id="prestacionesEmpleadoNew">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Nuevo</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
     <div class="modal fade" id="editarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -325,52 +228,16 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Editar Empleado</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Hisotria de cambios</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreEmpleadoEdit">Nombre(s)</label>
-                        <input type="text" class="form-control" id="nombreEmpleadoEdit">
+                        <label for="precioProducto">Precio producto</label>
+                        <input type="text" class="form-control" id="precioProducto"/>
                     </div>
                     <div class="form-group">
-                        <label for="apellidoPEmpleadoEdit">Apellido Paterno:</label>
-                        <input type="text" class="form-control" id="apellidoPEmpleadoEdit" >
-                    </div>
-                    <div class="form-group">
-                        <label for="apellidoMEmpleadoEdit">Apellido Materno</label>
-                        <input type="text" class="form-control" id="apellidoMEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="curpEmpleadoEdit">CURP</label>
-                        <input type="text" class="form-control" id="curpEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="telefonoEmpleadoEdit">Telefono</label>
-                        <input type="text" class="form-control" id="telefonoEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="correoEmpleadoEdit">Correo Electronico</label>
-                        <input type="email" class="form-control" id="correoEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="direccionEmpleadoEdit">Direccion</label>
-                        <input type="text" class="form-control" id="direccionEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="tipoEmpleadoEdit">Tipo Empleado</label>
-                        <input type="text" class="form-control" id="tipoEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="sueldoEmpleadoEdit">Sueldo</label>
-                        <input type="text" class="form-control" id="sueldoEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="cargoEmpleadoEdit">Cargo</label>
-                        <input type="text" class="form-control" id="cargoEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="prestacionesEmpleadoEdit">Prestaciones</label>
-                        <input type="text" class="form-control" id="prestacionesEmpleadoEdit">
+                        <label for="fechaCambio">Fecha del Cambio</label>
+                        <input type="text" class="form-control" id="fechaCambio"/>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -404,3 +271,4 @@
 
 </body>
 </html>
+
