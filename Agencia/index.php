@@ -185,6 +185,10 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </div>
+                <!-- BOTON PARA LA CREACION DE REGISTROS -->
+                <div>
+                    <button type="button" id="create" class="btn btn-primary">Nueva Agencia</button>
+                </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
@@ -244,11 +248,6 @@ $(document).ready(function(){
             </div>
         </div>        
     </div>    
-    
-    <!-- BOTON PARA LA CREACION DE REGISTROS -->
-    <div>
-        <button type="button" id="create" class="btn btn-primary">Nueva Agencia</button>
-    </div>
 </div>     
 
 <!-- MODAL PARA CREAR REGISTRO-->
