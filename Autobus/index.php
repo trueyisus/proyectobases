@@ -128,37 +128,47 @@
             font-size: 95%;
         }    
     </style>
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
 
-            //FUNCION DE AGREGAR AUTOBUS NUEVO
-            $("#btnAgregarAutobus").on("click", function(){
-                $('#agregarAutobusModal').modal('show'); 
-            });
-
-            //FUNCION EDITAR AUTOBUS
-            $(".edit").on("click", function(){
-                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#editarAutobusModal').modal('show'); 
-                
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
-                var idAutobusEditar = $(this).data('id');
-            });
-
-            //FUNCION ELIMINAR AUTOBUS
-            $(".delete").on("click", function(){
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A ELIMINAR
-                var idAutobusEliminar = $(this).data('id');
-                
-                //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el autobus con id "+idAutobusEliminar+"?</p>");
-                
-                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#eliminarAutobusModal').modal('show'); 
-            });
+        //FUNCION CREAR AUTOBUS
+            $("#create").on("click", function(){
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#crearAutobusModal').modal('show'); 
+            
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
+            var idAutobusCrear = $(this).data('id');
         });
-    </script>
+
+        //FUNCION EDITAR AUTOBUS
+        $(".edit").on("click", function(){
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#editarAutobusModal').modal('show'); 
+            
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA AGENCIA A EDITAR
+            var idAutobusEditar = $(this).data('id');
+        });
+
+        //FUNCION ELIMINAR AUTOBUS
+        $(".delete").on("click", function(){
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A ELIMINAR
+            var idAutobusEliminar = $(this).data('id');
+            
+            //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
+            $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el autobus con id "+ idAutobusEliminar +"?</p>");
+            
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#eliminarAutbousModal').modal('show'); 
+        });
+    });
+</script>
+
+<script>
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 
 </head>
 <body>
@@ -176,13 +186,13 @@
                         </div>
                     </div>
                 </div>
+                <!-- BOTON PARA LA CREACION DE REGISTROS -->
                 <div>
-                    <button type="button" class="btn btn-primary" id="btnAgregarAutobus">Agregar nuevo autobus</button>
+                    <button type="button" id="create" class="btn btn-primary">Nuevo Autobus</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Numero_serie <i class="fa fa-sort"></i></th>
                             <th>Id_chofer <i class="fa fa-sort"></i></th>
                             <th>Placas</th> 
@@ -192,7 +202,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1</td>
                             <td>HGKL2542</td>
                             <td>1452</td>
                             <td>DFG7865</td>
@@ -205,7 +214,6 @@
                         </tr>   
                         
                         <tr>
-                            <td>2</td>
                             <td>HGKL2542</td>
                             <td>1452</td>
                             <td>DFG7865</td>
@@ -235,37 +243,37 @@
         </div>        
     </div>  
     
-    <!-- ESTE ES EL MODAL PARA AGREGAR UN NUEVO REGISTRO -->
-    <div class="modal fade" id="agregarAutobusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+<!-- MODAL PARA CREAR REGISTRO-->
+<div class="modal fade" id="crearAutobusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Agregar Autobus</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Crear Agencia</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreAutobusNew">Numero de serie:</label>
-                        <input type="text" class="form-control" id="nombreAutobusNew">
+                        <label for="numeroSerie">Número de serie:</label>
+                        <input type="text" class="form-control" id="numeroSerie">
                     </div>
                     <div class="form-group">
-                        <label for="IdchoferNew">Id_chofer:</label>
-                        <input type="text" class="form-control" id="IdchoferNew" >
+                        <label for="IdChofer">Id chofer:</label>
+                        <input type="text" class="form-control" id="IdChofer" >
                     </div>
                     <div class="form-group">
-                        <label for="placasNew">Placas:</label>
-                        <input type="text" class="form-control" id="placasNew">
+                        <label for="placas">Placas:</label>
+                        <input type="text" class="form-control" id="placas" >
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Modelo:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="modelo">Modelo:</label>
+                        <input type="text" class="form-control" id="modelo" >
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Nuevo</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
                 </div>
             </div>
         </div>
@@ -280,24 +288,25 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Editar Autobus</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Agencia</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreAutobusEdit">Numero de serie:</label>
-                        <input type="text" class="form-control" id="nombreAutobusEdit">
+                        <label for="numeroSerie">Número de serie:</label>
+                        <input type="text" class="form-control" id="numeroSerie">
                     </div>
                     <div class="form-group">
-                        <label for="IdchoferEdit">Id_chofer:</label>
-                        <input type="text" class="form-control" id="IdchoferEdit" >
+                        <label for="IdChofer">Id chofer:</label>
+                        <input type="text" class="form-control" id="IdChofer" >
                     </div>
                     <div class="form-group">
-                        <label for="placasEdit">Placas:</label>
-                        <input type="text" class="form-control" id="placasEdit">
+                        <label for="placas">Placas:</label>
+                        <input type="text" class="form-control" id="placas" >
                     </div>
                     <div class="form-group">
-                        <label for="modeloEdit">Modelo:</label>
-                        <input type="text" class="form-control" id="modeloEdit">
+                        <label for="modelo">Modelo:</label>
+                        <input type="text" class="form-control" id="modelo" >
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -307,7 +316,7 @@
         </div>
     </div>
     
-    <!--ESTE MODAL ES PARA ELIMINAR UN USUARIO-->
+    <!--ESTE MODAL ES PARA ELIMINAR UN INMOBILIARIO-->
     <div class="modal fade" id="eliminarAutobusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
