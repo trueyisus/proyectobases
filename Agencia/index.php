@@ -128,10 +128,47 @@
     }    
 </style>
 <script>
+    $(document).ready(function(){
+	    $('[data-toggle="tooltip"]').tooltip();
+
+        //FUNCION CREAR AGENCIA
+        $("#create").on("click", function(){
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#crearAgenciaModal').modal('show'); 
+            
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA AGENCIA A EDITAR
+            var idAgenciaCrear = $(this).data('id');
+        });
+
+        //FUNCION EDITAR AGENCIA
+        $(".edit").on("click", function(){
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#editarAgenciaModal').modal('show'); 
+            
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA AGENCIA A EDITAR
+            var idAgenciaEditar = $(this).data('id');
+        });
+
+        //FUNCION ELIMINAR AGENCIA
+        $(".delete").on("click", function(){
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A ELIMINAR
+            var idAgenciaEliminar = $(this).data('id');
+            
+            //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
+            $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar la agencia con id "+ idAgenciaEliminar +"?</p>");
+            
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#eliminarAgenciaModal').modal('show'); 
+        });
+    });
+</script>
+
+<script>
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 });
 </script>
+
 </head>
 <body>
     <div class="container">
@@ -206,6 +243,121 @@ $(document).ready(function(){
                 </div>
             </div>
         </div>        
-    </div>     
+    </div>    
+    
+    <!-- BOTON PARA LA CREACION DE REGISTROS -->
+    <div>
+        <button type="button" id="create" class="btn btn-primary">Nueva Agencia</button>
+    </div>
+</div>     
+
+<!-- MODAL PARA CREAR REGISTRO-->
+<div class="modal fade" id="crearAgenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Crear Agencia</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="IdAgencia">Id Agencia:</label>
+                        <input type="text" class="form-control" id="IdAgencia">
+                    </div>
+                    <div class="form-group">
+                        <label for="IdInventario">Id inventario:</label>
+                        <input type="text" class="form-control" id="IdInventario" >
+                    </div>
+                    <div class="form-group">
+                        <label for="IdImportacion">Id Importación:</label>
+                        <input type="text" class="form-control" id="IdImportacion" >
+                    </div>
+                    <div class="form-group">
+                        <label for="IdAlmacen">Id Almacen:</label>
+                        <input type="text" class="form-control" id="IdAlmacen" >
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreAgencia">Nombre Agencia:</label>
+                        <input type="text" class="form-control" id="nombreAgencia" >
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección Agencia:</label>
+                        <input type="text" class="form-control" id="direccion" >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
+    <div class="modal fade" id="editarAgenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Agencia</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="IdAgencia">Id Agencia:</label>
+                        <input type="text" class="form-control" id="IdAgencia">
+                    </div>
+                    <div class="form-group">
+                        <label for="IdInventario">Id inventario:</label>
+                        <input type="text" class="form-control" id="IdInventario" >
+                    </div>
+                    <div class="form-group">
+                        <label for="IdImportacion">Id Importación:</label>
+                        <input type="text" class="form-control" id="IdImportacion" >
+                    </div>
+                    <div class="form-group">
+                        <label for="IdAlmacen">Id Almacen:</label>
+                        <input type="text" class="form-control" id="IdAlmacen" >
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreAgencia">Nombre Agencia:</label>
+                        <input type="text" class="form-control" id="nombreAgencia" >
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección Agencia:</label>
+                        <input type="text" class="form-control" id="direccion" >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ESTE MODAL ES PARA ELIMINAR UN INMOBILIARIO-->
+    <div class="modal fade" id="eliminarAgenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">¡Alerta!</h3>
+                </div>
+                <div id="contenidoModalEliminar" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
