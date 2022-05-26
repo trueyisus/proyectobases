@@ -130,6 +130,32 @@
 <script>
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
+
+    //FUNCION DE AGREGAR VENTA NUEVA
+    $("#btnAgregarVenta").on("click", function(){
+                $('#agregarVentaModal').modal('show'); 
+            });
+
+            //FUNCION EDITAR VENTA
+            $(".edit").on("click", function(){
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#editarVentaModal').modal('show'); 
+                
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A EDITAR
+                var idVentaEditar = $(this).data('id');
+            });
+
+            //FUNCION ELIMINAR VENTA
+            $(".delete").on("click", function(){
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A ELIMINAR
+                var idVentaEliminar = $(this).data('id');
+                
+                //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
+                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar la venta con con id "+idVentaEliminar+"?</p>");
+                
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#eliminarVentaModal').modal('show'); 
+            });
 });
 </script>
 </head>
@@ -147,6 +173,9 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="btnAgregarAutobus">Agregar nueva venta</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -209,6 +238,132 @@ $(document).ready(function(){
                 </div>
             </div>
         </div>        
-    </div>     
+    </div>  
+    
+     <!-- ESTE ES EL MODAL PARA AGREGAR UN NUEVO REGISTRO -->
+     <div class="modal fade" id="agregarVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Agregar Venta</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreAutobusNew">Id Venta:</label>
+                        <input type="text" class="form-control" id="nombreAutobusNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="IdchoferNew">Id Producto:</label>
+                        <input type="text" class="form-control" id="IdchoferNew" >
+                    </div>
+                    <div class="form-group">
+                        <label for="placasNew">Cliente:</label>
+                        <input type="text" class="form-control" id="placasNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Fecha:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Cantidad:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Total:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Estado:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Tipo de entrega:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar Venta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
+    <div class="modal fade" id="editarVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Venta</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreAutobusNew">Id Venta:</label>
+                        <input type="text" class="form-control" id="nombreAutobusNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="IdchoferNew">Id Producto:</label>
+                        <input type="text" class="form-control" id="IdchoferNew" >
+                    </div>
+                    <div class="form-group">
+                        <label for="placasNew">Cliente:</label>
+                        <input type="text" class="form-control" id="placasNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Fecha:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Cantidad:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Total:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Estado:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Tipo de entrega:</label>
+                        <input type="text" class="form-control" id="modeloNew">
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--ESTE MODAL ES PARA ELIMINAR UN USUARIO-->
+    <div class="modal fade" id="eliminarVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">¡Alerta!</h3>
+                </div>
+                <div id="contenidoModalEliminar" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
