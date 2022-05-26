@@ -152,7 +152,7 @@
                 var idAutobusEliminar = $(this).data('id');
                 
                 //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el usuario con id "+idAutobusEliminar+"?</p>");
+                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el autobus con id "+idAutobusEliminar+"?</p>");
                 
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
                 $('#eliminarAutobusModal').modal('show'); 
