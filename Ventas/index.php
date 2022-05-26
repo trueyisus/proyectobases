@@ -158,6 +158,13 @@ $(document).ready(function(){
             });
 });
 </script>
+
+<script>
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
 </head>
 <body>
     <div class="container">
