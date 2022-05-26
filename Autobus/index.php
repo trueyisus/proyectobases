@@ -159,7 +159,7 @@
             $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el autobus con id "+ idAutobusEliminar +"?</p>");
             
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#eliminarAutbousModal').modal('show'); 
+            $('#eliminarAutobusModal').modal('show'); 
         });
     });
 </script>
