@@ -207,13 +207,12 @@ $(document).ready(function(){
                             <td>114</td>
                             <td>MEX-1</td>
                             <td>A4</td>
-                            <td>1436</td>
                             <td>Centro</td>
                             <td>89 Chiaroscuro Rd.</td>
                             <td>
                                 <a href="#" class="view" title="Ver" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a href="#" class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a href="#" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                <a data-id="ID_Agencia" href="#" class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a data-id="ID_Agencai" href="#" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                             </td>
                         </tr>
                         <tr>
@@ -221,13 +220,12 @@ $(document).ready(function(){
                             <td>135</td>
                             <td>MEX-3</td>
                             <td>A8</td>
-                            <td>1436</td>
                             <td>Rodeo</td>
                             <td>C/ Araquil, 67</td>
                             <td>
                                 <a href="#" class="view" title="Ver" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a href="#" class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a href="#" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                <a data-id="ID_Agencia" href="#" class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a data-id="ID_Agencia" href="#" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                             </td>
                         </tr>
                         
