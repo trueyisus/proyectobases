@@ -155,10 +155,9 @@ $(document).ready(function(){
                             <th>ID_Inventario</th>
                             <th>ID_Importacion <i class="fa fa-sort"></i></th>
                             <th>ID_Almacen</th>
-                            <th>ID_Empleado <i class="fa fa-sort"></i></th>
                             <th>Nombre Agencia</th>
                             <th>Direccion Agencia <i class="fa fa-sort"></i></th>
-                            <th>Acciones</th>
+                            <th>Gestionar</th>
                         </tr>
                     </thead>
                     <tbody>

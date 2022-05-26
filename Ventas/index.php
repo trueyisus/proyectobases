@@ -157,8 +157,9 @@ $(document).ready(function(){
                             <th>Fecha <i class="fa fa-sort"></i></th>
                             <th>Cantidad <i class="fa fa-sort"></i></th>
                             <th>Total <i class="fa fa-sort"></i></th>
-                            <th>Estado</th>
+                            <th>Estado <i class="fa fa-sort"></i></th>
                             <th>Tipo de Entrega</th>
+                            <th>Gestionar</th>
                         </tr>
                     </thead>
                     <tbody>
