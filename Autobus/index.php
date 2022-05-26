@@ -285,19 +285,19 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="nombreAutobusEdit">Numero de serie:</label>
-                        <input type="text" class="form-control" id="nombreEmpleadoEdit">
+                        <input type="text" class="form-control" id="nombreAutobusEdit">
                     </div>
                     <div class="form-group">
                         <label for="IdchoferEdit">Id_chofer:</label>
-                        <input type="text" class="form-control" id="apellidoPEmpleadoEdit" >
+                        <input type="text" class="form-control" id="IdchoferEdit" >
                     </div>
                     <div class="form-group">
                         <label for="placasEdit">Placas:</label>
-                        <input type="text" class="form-control" id="apellidoMEmpleadoEdit">
+                        <input type="text" class="form-control" id="placasEdit">
                     </div>
                     <div class="form-group">
                         <label for="modeloEdit">Modelo:</label>
-                        <input type="text" class="form-control" id="curpEmpleadoEdit">
+                        <input type="text" class="form-control" id="modeloEdit">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

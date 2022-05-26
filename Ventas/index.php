@@ -203,8 +203,8 @@ $(document).ready(function(){
                             <td>Sucursal</td>
                             <td>
                                 <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                             </td>
                         </tr>
                         <tr>
@@ -218,8 +218,8 @@ $(document).ready(function(){
                             <td>Planta</td>
                             <td>
                                 <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                             </td>
                         </tr>                          
                     </tbody>
@@ -252,36 +252,36 @@ $(document).ready(function(){
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreAutobusNew">Id Venta:</label>
-                        <input type="text" class="form-control" id="nombreAutobusNew">
+                        <label for="ventaNew">Id Venta:</label>
+                        <input type="text" class="form-control" id="ventaNew">
                     </div>
                     <div class="form-group">
-                        <label for="IdchoferNew">Id Producto:</label>
-                        <input type="text" class="form-control" id="IdchoferNew" >
+                        <label for="IdProductoNew">Id Producto:</label>
+                        <input type="text" class="form-control" id="IdProductoNew" >
                     </div>
                     <div class="form-group">
-                        <label for="placasNew">Cliente:</label>
-                        <input type="text" class="form-control" id="placasNew">
+                        <label for="clienteNew">Cliente:</label>
+                        <input type="text" class="form-control" id="clienteNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Fecha:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="fechaNew">Fecha:</label>
+                        <input type="text" class="form-control" id="fechaNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Cantidad:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="cantidadNew">Cantidad:</label>
+                        <input type="text" class="form-control" id="cantidadNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Total:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="totalNew">Total:</label>
+                        <input type="text" class="form-control" id="totalNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Estado:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="estadoNew">Estado:</label>
+                        <input type="text" class="form-control" id="estadoNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Tipo de entrega:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="tipoentregaNew">Tipo de entrega:</label>
+                        <input type="text" class="form-control" id="tipoentregaNew">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -305,36 +305,36 @@ $(document).ready(function(){
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreAutobusNew">Id Venta:</label>
-                        <input type="text" class="form-control" id="nombreAutobusNew">
+                        <label for="ventaNew">Id Venta:</label>
+                        <input type="text" class="form-control" id="ventaNew">
                     </div>
                     <div class="form-group">
-                        <label for="IdchoferNew">Id Producto:</label>
-                        <input type="text" class="form-control" id="IdchoferNew" >
+                        <label for="IdProductoNew">Id Producto:</label>
+                        <input type="text" class="form-control" id="IdProductoNew" >
                     </div>
                     <div class="form-group">
-                        <label for="placasNew">Cliente:</label>
-                        <input type="text" class="form-control" id="placasNew">
+                        <label for="clienteNew">Cliente:</label>
+                        <input type="text" class="form-control" id="clienteNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Fecha:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="fechaNew">Fecha:</label>
+                        <input type="text" class="form-control" id="fechaNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Cantidad:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="cantidadNew">Cantidad:</label>
+                        <input type="text" class="form-control" id="cantidadNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Total:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="totalNew">Total:</label>
+                        <input type="text" class="form-control" id="totalNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Estado:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="estadoNew">Estado:</label>
+                        <input type="text" class="form-control" id="estadoNew">
                     </div>
                     <div class="form-group">
-                        <label for="modeloNew">Tipo de entrega:</label>
-                        <input type="text" class="form-control" id="modeloNew">
+                        <label for="tipoentregaNew">Tipo de entrega:</label>
+                        <input type="text" class="form-control" id="tipoentregaNew">
                     </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
