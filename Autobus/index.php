@@ -146,7 +146,7 @@
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
             $('#editarAutobusModal').modal('show'); 
             
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA AGENCIA A EDITAR
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
             var idAutobusEditar = $(this).data('id');
         });
 
@@ -251,7 +251,7 @@ $(document).ready(function(){
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Crear Agencia</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Crear Autobus</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -288,7 +288,7 @@ $(document).ready(function(){
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Editar Agencia</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Autobus</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
