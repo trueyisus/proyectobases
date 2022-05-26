@@ -131,31 +131,36 @@
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 
-    //FUNCION DE AGREGAR VENTA NUEVA
-    $("#btnAgregarVenta").on("click", function(){
-                $('#agregarVentaModal').modal('show'); 
-            });
+    //FUNCION CREAR VENTA
+    $("#create").on("click", function(){
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#crearVentaModal').modal('show'); 
+            
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A EDITAR
+            var idVentaCrear = $(this).data('id');
+        });
 
-            //FUNCION EDITAR VENTA
-            $(".edit").on("click", function(){
-                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#editarVentaModal').modal('show'); 
-                
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A EDITAR
-                var idVentaEditar = $(this).data('id');
-            });
+        //FUNCION EDITAR VENTA
+        $(".edit").on("click", function(){
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#editarVentaModal').modal('show'); 
+            
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A EDITAR
+            var idVentaEditar = $(this).data('id');
+        });
 
-            //FUNCION ELIMINAR VENTA
-            $(".delete").on("click", function(){
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A ELIMINAR
-                var idVentaEliminar = $(this).data('id');
-                
-                //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar la venta con con id "+idVentaEliminar+"?</p>");
-                
-                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#eliminarVentaModal').modal('show'); 
-            });
+        //FUNCION ELIMINAR VENTA
+        $(".delete").on("click", function(){
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A ELIMINAR
+            var idVentaEliminar = $(this).data('id');
+            
+            //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
+            $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar la venta con id "+ idVentaEliminar +"?</p>");
+            
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#eliminarVentaModal').modal('show'); 
+        });
+
 });
 </script>
 
@@ -182,7 +187,7 @@ $(document).ready(function(){
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-primary" id="btnAgregarAutobus">Agregar nueva venta</button>
+                    <button type="button" class="btn btn-primary" id="create">Agregar nueva venta</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -210,8 +215,8 @@ $(document).ready(function(){
                             <td>Sucursal</td>
                             <td>
                                 <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                <a data-id="ID_Venta" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a data-id="ID_Venta" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                             </td>
                         </tr>
                         <tr>
@@ -225,8 +230,8 @@ $(document).ready(function(){
                             <td>Planta</td>
                             <td>
                                 <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                <a data-id="ID_Venta" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a data-id="ID_Venta" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                             </td>
                         </tr>                          
                     </tbody>
@@ -247,53 +252,53 @@ $(document).ready(function(){
         </div>        
     </div>  
     
-     <!-- ESTE ES EL MODAL PARA AGREGAR UN NUEVO REGISTRO -->
-     <div class="modal fade" id="agregarVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+     <!-- MODAL PARA CREAR REGISTRO-->
+<div class="modal fade" id="crearVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Agregar Venta</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Crear Venta</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="ventaNew">Id Venta:</label>
-                        <input type="text" class="form-control" id="ventaNew">
+                        <label for="IdVenta">Id Venta:</label>
+                        <input type="text" class="form-control" id="IdVenta">
                     </div>
                     <div class="form-group">
-                        <label for="IdProductoNew">Id Producto:</label>
-                        <input type="text" class="form-control" id="IdProductoNew" >
+                        <label for="IdProducto">Id Producto:</label>
+                        <input type="text" class="form-control" id="IdProducto" >
                     </div>
                     <div class="form-group">
-                        <label for="clienteNew">Cliente:</label>
-                        <input type="text" class="form-control" id="clienteNew">
+                        <label for="cliente">Cliente:</label>
+                        <input type="text" class="form-control" id="cliente" >
                     </div>
                     <div class="form-group">
-                        <label for="fechaNew">Fecha:</label>
-                        <input type="text" class="form-control" id="fechaNew">
+                        <label for="fecha">Fecha:</label>
+                        <input type="text" class="form-control" id="fecha" >
                     </div>
                     <div class="form-group">
-                        <label for="cantidadNew">Cantidad:</label>
-                        <input type="text" class="form-control" id="cantidadNew">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="text" class="form-control" id="cantidad" >
                     </div>
                     <div class="form-group">
-                        <label for="totalNew">Total:</label>
-                        <input type="text" class="form-control" id="totalNew">
+                        <label for="total">Total:</label>
+                        <input type="text" class="form-control" id="total" >
                     </div>
                     <div class="form-group">
-                        <label for="estadoNew">Estado:</label>
-                        <input type="text" class="form-control" id="estadoNew">
+                        <label for="estado">Estado:</label>
+                        <input type="text" class="form-control" id="estado" >
                     </div>
                     <div class="form-group">
-                        <label for="tipoentregaNew">Tipo de entrega:</label>
-                        <input type="text" class="form-control" id="tipoentregaNew">
+                        <label for="tipoEntrega">Tipo Entrega:</label>
+                        <input type="text" class="form-control" id="tipoEntrega" >
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Venta</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
                 </div>
             </div>
         </div>
@@ -312,37 +317,38 @@ $(document).ready(function(){
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="ventaNew">Id Venta:</label>
-                        <input type="text" class="form-control" id="ventaNew">
+                        <label for="IdVenta">Id Venta:</label>
+                        <input type="text" class="form-control" id="IdVenta">
                     </div>
                     <div class="form-group">
-                        <label for="IdProductoNew">Id Producto:</label>
-                        <input type="text" class="form-control" id="IdProductoNew" >
+                        <label for="IdProducto">Id Producto:</label>
+                        <input type="text" class="form-control" id="IdProducto" >
                     </div>
                     <div class="form-group">
-                        <label for="clienteNew">Cliente:</label>
-                        <input type="text" class="form-control" id="clienteNew">
+                        <label for="cliente">Cliente:</label>
+                        <input type="text" class="form-control" id="cliente" >
                     </div>
                     <div class="form-group">
-                        <label for="fechaNew">Fecha:</label>
-                        <input type="text" class="form-control" id="fechaNew">
+                        <label for="fecha">Fecha:</label>
+                        <input type="text" class="form-control" id="fecha" >
                     </div>
                     <div class="form-group">
-                        <label for="cantidadNew">Cantidad:</label>
-                        <input type="text" class="form-control" id="cantidadNew">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="text" class="form-control" id="cantidad" >
                     </div>
                     <div class="form-group">
-                        <label for="totalNew">Total:</label>
-                        <input type="text" class="form-control" id="totalNew">
+                        <label for="total">Total:</label>
+                        <input type="text" class="form-control" id="total" >
                     </div>
                     <div class="form-group">
-                        <label for="estadoNew">Estado:</label>
-                        <input type="text" class="form-control" id="estadoNew">
+                        <label for="estado">Estado:</label>
+                        <input type="text" class="form-control" id="estado" >
                     </div>
                     <div class="form-group">
-                        <label for="tipoentregaNew">Tipo de entrega:</label>
-                        <input type="text" class="form-control" id="tipoentregaNew">
+                        <label for="tipoEntrega">Tipo Entrega:</label>
+                        <input type="text" class="form-control" id="tipoEntrega" >
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary">Guardar Cambios</button>
@@ -351,7 +357,7 @@ $(document).ready(function(){
         </div>
     </div>
     
-    <!--ESTE MODAL ES PARA ELIMINAR UN USUARIO-->
+    <!--ESTE MODAL ES PARA ELIMINAR UN INMOBILIARIO-->
     <div class="modal fade" id="eliminarVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
