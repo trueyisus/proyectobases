@@ -44,9 +44,13 @@
 
     <div class="menu">
         <div class="conjunto_botones">
-            <button type="button" class="boton" id="boton_finanzas" class="btn btn-light">
+            <button type="button" class="boton" id="boton_finanzas" class="btn btn-light" >
+            <area href="index copy 2.php" >
                 <img src="Iconos/finanzas.png" class="icono">
+
+    
                 <p>Finanzas</p>
+                </map>
             </button>
 
             <button type="button" class="boton" id="boton_ventas" class="btn btn-light">
