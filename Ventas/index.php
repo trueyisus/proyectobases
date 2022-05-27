@@ -199,6 +199,7 @@ $(document).ready(function(){
                             <th>Cantidad <i class="fa fa-sort"></i></th>
                             <th>Total <i class="fa fa-sort"></i></th>
                             <th>Estado <i class="fa fa-sort"></i></th>
+                            <th>Tipo de entrega</th>
                             <th>Gestionar</th>
                         </tr>
                     </thead>
@@ -211,6 +212,7 @@ $(document).ready(function(){
                             <td>8</td>
                             <td>1547</td>
                             <td>Pagado</td>
+                            <td>Internacional</td>
                             <td>
                                 <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                                 <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -225,6 +227,7 @@ $(document).ready(function(){
                             <td>20</td>
                             <td>7500</td>
                             <td>Pagado</td>
+                            <td>Internacional</td>
                             <td>
                                 <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                                 <a data-id="2" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -288,6 +291,10 @@ $(document).ready(function(){
                         <label for="estado">Estado:</label>
                         <input type="text" class="form-control" id="estado" >
                     </div>
+                    <div class="form-group">
+                        <label for="tipoEntrega">Tipo de entrega:</label>
+                        <input type="text" class="form-control" id="tipoEntrega" >
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -336,6 +343,10 @@ $(document).ready(function(){
                     <div class="form-group">
                         <label for="estado">Estado:</label>
                         <input type="text" class="form-control" id="estado" >
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoEntrega">Tipo de entrega:</label>
+                        <input type="text" class="form-control" id="tipoEntrega" >
                     </div>
                 </div>
                 <div class="modal-footer">
