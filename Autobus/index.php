@@ -1,3 +1,18 @@
+<?php
+    include("../database/conexion.php");
+    $limit = 100;
+    $noPagina = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $inicioConsulta = ($noPagina - 1) * $limit;
+
+    $resultCount = pg_query($dbconn, "SELECT COUNT(*) FROM bdii.autobus");
+    $renglonCount = pg_fetch_row($resultCount);
+    $paginas = ceil($renglonCount[0] / $limit);
+
+    if($noPagina > $paginas || $noPagina < 1){
+        header("Location: index.php?page=1");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -201,30 +216,24 @@ $(document).ready(function(){
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>HGKL2542</td>
-                            <td>1452</td>
-                            <td>DFG7865</td>
-                            <td>MAN</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>   
-                        
-                        <tr>
-                            <td>HGKL2542</td>
-                            <td>1452</td>
-                            <td>DFG7865</td>
-                            <td>MAN</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="2" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="2" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>       
-
+                    <?php
+                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.autobus ORDER BY numero_serie LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultEmpleados)){
+                                echo '
+                                    <tr>
+                                        <td>'.$row["numero_serie"].'</td>
+                                        <td>'.$row["id_chofer"].'</td>
+                                        <td>'.$row["placas"].'</td>
+                                        <td>'.$row["modelo"].'</td>
+                                        <td>
+                                            <a href="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a data-id="'.$row["numero_serie"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                            <a data-id="'.$row["numero_serie"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        ?>       
                     </tbody>
                 </table>
                 <div class="clearfix">
