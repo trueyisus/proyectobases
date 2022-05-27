@@ -26,14 +26,9 @@
             <img src="Iconos/menu.png" id="icono_menu">
             <ul id="opciones">
                 <li><a href="index.php">Finanzas</a></li>
-                <li><a href="">Finanzas</a></li>
+               
                 <li><a href="">Ventas</a></li>
-                <li><a href="">Marketing</a></li>
-                <li><a href="">Manufactura</a></li>
-                <li><a href="">Recursos Humanos</a></li>
-                <li><a href="">Importaciones</a></li>
-                <li><a href="">Control de Inventarios</a></li>
-                <li><a href="">Transporte de Personal</a></li>
+             
             </ul>
         </div>
 
@@ -46,46 +41,11 @@
         <div class="conjunto_botones">
             <button type="button" class="boton" id="boton_finanzas" class="btn btn-light">
                 <img src="Iconos/finanzas.png" class="icono">
-                <p>Finanzas</p>
-            </button>
-
-            <button type="button" class="boton" id="boton_ventas" class="btn btn-light">
-                <img src="Iconos/ventas.png" class="icono">
                 <p>Ventas</p>
             </button>
-
-            <button type="button" class="boton" id="boton_marketing" class="btn btn-light">
-                <img src="Iconos/marketing.png" class="icono">
-                <p>Marketing</p>
-            </button>
-
-            <button type="button" class="boton" id="boton_manufactura" class="btn btn-light">
-                <img src="Iconos/manufactura.png" class="icono">
-                <p>Manufactura</p>
-            </button>
         </div>
 
-        <div class="conjunto_botones">
-            <button type="button" class="boton" id="boton_rh" class="btn btn-light">
-                <img src="Iconos/rh.png" class="icono">
-                <p> Recursos Humanos</p>
-            </button>
-
-            <button type="button" class="boton" id="boton_importaciones" class="btn btn-light">
-                <img src="Iconos/importar.png" class="icono">
-                <p>Importaciones</p>
-            </button>
-
-            <button type="button" class="boton" id="boton_ci" class="btn btn-light">
-                <img src="Iconos/ci.png" class="icono">
-                <p>Control de Inventarios</p>
-            </button>
-
-            <button type="button" class="boton" id="boton_tp" class="btn btn-light">
-                <img src="Iconos/tp.png" class="icono">
-                <p>Transporte de personal</p>
-            </button>
-        </div>
+        
     </div>
 </body>
 
