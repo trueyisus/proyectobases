@@ -1,141 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bootstrap Simple Data Table</title>
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<style>
-    body {
-        color: #566787;
-        background: #f5f5f5;
-		font-family: 'Roboto', sans-serif;
-	}
-    .table-responsive {
-        margin: 30px 0;
-    }
-	.table-wrapper {
-		min-width: 1000px;
-        background: #fff;
-        padding: 20px;        
-        box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    }
-	.table-title {
-        padding-bottom: 10px;
-        margin: 0 0 10px;
-    }
-    .table-title h2 {
-        margin: 8px 0 0;
-        font-size: 22px;
-    }
-    .search-box {
-        position: relative;        
-        float: right;
-    }
-    .search-box input {
-        height: 34px;
-        border-radius: 20px;
-        padding-left: 35px;
-        border-color: #ddd;
-        box-shadow: none;
-    }
-	.search-box input:focus {
-		border-color: #3FBAE4;
-	}
-    .search-box i {
-        color: #a0a5b1;
-        position: absolute;
-        font-size: 19px;
-        top: 8px;
-        left: 10px;
-    }
-    table.table tr th, table.table tr td {
-        border-color: #e9e9e9;
-    }
-    table.table-striped tbody tr:nth-of-type(odd) {
-    	background-color: #fcfcfc;
-	}
-	table.table-striped.table-hover tbody tr:hover {
-		background: #f5f5f5;
-	}
-    table.table th i {
-        font-size: 13px;
-        margin: 0 5px;
-        cursor: pointer;
-    }
-    table.table td:last-child {
-        width: 130px;
-    }
-    table.table td a {
-        color: #a0a5b1;
-        display: inline-block;
-        margin: 0 5px;
-    }
-	table.table td a.view {
-        color: #03A9F4;
-    }
-    table.table td a.edit {
-        color: #FFC107;
-    }
-    table.table td a.delete {
-        color: #E34724;
-    }
-    table.table td i {
-        font-size: 19px;
-    }    
-    .pagination {
-        float: right;
-        margin: 0 0 5px;
-    }
-    .pagination li a {
-        border: none;
-        font-size: 95%;
-        width: 30px;
-        height: 30px;
-        color: #999;
-        margin: 0 2px;
-        line-height: 30px;
-        border-radius: 30px !important;
-        text-align: center;
-        padding: 0;
-    }
-    .pagination li a:hover {
-        color: #666;
-    }	
-    .pagination li.active a {
-        background: #03A9F4;
-    }
-    .pagination li.active a:hover {        
-        background: #0397d6;
-    }
-	.pagination li.disabled i {
-        color: #ccc;
-    }
-    .pagination li i {
-        font-size: 16px;
-        padding-top: 6px
-    }
-    .hint-text {
-        float: left;
-        margin-top: 6px;
-        font-size: 95%;
-    }    
-</style>
-<script>
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Usuario</h1>
-    <h1>Contraseña</h1>
-    <a href="Almacen/">Redirigir</a>
+    <nav class="navbar navbar-dark bg-dark">
+        <div id="menu_opciones">
+            <img src="Iconos/menu.png" id="icono_menu">
+            <ul id="opciones">
+                <li><a href="index.php">Menu Principal</a></li>
+                <li><a href="">Finanzas</a></li>
+                <li><a href="">Ventas</a></li>
+                <li><a href="">Marketing</a></li>
+                <li><a href="">Manufactura</a></li>
+                <li><a href="">Recursos Humanos</a></li>
+                <li><a href="">Importaciones</a></li>
+                <li><a href="">Control de Inventarios</a></li>
+                <li><a href="">Transporte de Personal</a></li>
+            </ul>
+        </div>
+
+        <p id="nom_sistema">Sistema ERP</p>
+        <p id="nom_usuario">Usuario</p>
+        <img src="Iconos/usuario.png" id="icono_usuario">
+    </nav>
+
+    <div class="menu">
+        <div class="conjunto_botones">
+            <button type="button" class="boton" id="boton_finanzas" class="btn btn-light">
+                <img src="Iconos/finanzas.png" class="icono">
+                <p>Finanzas</p>
+            </button>
+
+            <button type="button" class="boton" id="boton_ventas" class="btn btn-light">
+                <img src="Iconos/ventas.png" class="icono">
+                <p>Ventas</p>
+            </button>
+
+            <button type="button" class="boton" id="boton_marketing" class="btn btn-light">
+                <img src="Iconos/marketing.png" class="icono">
+                <p>Marketing</p>
+            </button>
+
+            <button type="button" class="boton" id="boton_manufactura" class="btn btn-light">
+                <img src="Iconos/manufactura.png" class="icono">
+                <p>Manufactura</p>
+            </button>
+        </div>
+
+        <div class="conjunto_botones">
+            <button type="button" class="boton" id="boton_rh" class="btn btn-light">
+                <img src="Iconos/rh.png" class="icono">
+                <p> Recursos Humanos</p>
+            </button>
+
+            <button type="button" class="boton" id="boton_importaciones" class="btn btn-light">
+                <img src="Iconos/importar.png" class="icono">
+                <p>Importaciones</p>
+            </button>
+
+            <button type="button" class="boton" id="boton_ci" class="btn btn-light">
+                <img src="Iconos/ci.png" class="icono">
+                <p>Control de Inventarios</p>
+            </button>
+
+            <button type="button" class="boton" id="boton_tp" class="btn btn-light">
+                <img src="Iconos/tp.png" class="icono">
+                <p>Transporte de personal</p>
+            </button>
+        </div>
+    </div>
 </body>
+
 </html>

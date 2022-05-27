@@ -1,0 +1,157 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/*BARRA DE NAVENACION*/
+.navbar{
+    margin: 0;
+    border-radius: 0;
+    height: 60px;
+    padding: 0;
+}
+
+#icono_menu{
+    width: 25px;
+    height: 30px;
+    margin-left: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+li{
+    font-size: large;
+    
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #0079bf;
+}
+
+#opciones{
+    margin-left: 0;
+    position: absolute;
+    display: none;
+    list-style: none;
+}
+
+#menu_opciones:hover #opciones{
+    display: block;
+    align-items: flex-start;
+    background-color: #292b2c;
+    width: 220px;
+    height: 370px;
+}
+
+#nom_sistema{
+    color: white;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-self: center;
+    align-content: center;
+    font-size: x-large;
+
+    margin-left: 20px;
+}
+
+#nom_usuario{
+    color: white;
+    height: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    align-self: center;
+    align-content: center;
+    font-size: large;
+
+    margin-left: auto;
+    margin-right: 10px;
+    display: block;
+}
+
+#icono_usuario{
+    width: 30;
+    height: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    margin-right: 20px;
+    margin-left: 10px;
+}
+/*+++++++++++++++++++++++++++++++++++++++++++++++*/
+
+.menu{
+    position: absolute;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.conjunto_botones{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.boton {
+    font-size: large;
+    color: white;
+
+    display: table;
+
+    border-radius: 1rem;
+    border: 0;
+
+    width: 200px;
+    height: 200px;
+
+    margin: 20px;
+}
+
+.icono{
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+
+    margin: 20px;
+}
+
+#boton_finanzas{
+    background-color: #0079bf;
+}
+
+#boton_ventas{
+    background-color: #70b500;
+}
+
+#boton_marketing{
+    background-color: #ff9f1a;
+}
+
+#boton_manufactura{
+    background-color: #eb5a46;
+}
+
+#boton_rh{
+    background-color: #f8cc1b;
+}
+
+#boton_importaciones{
+    background-color: #c377e0;
+}
+
+#boton_ci{
+    background-color: #ff78cb;
+}
+
+#boton_tp{
+    background-color: #00c2e0;
+}
