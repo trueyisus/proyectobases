@@ -230,7 +230,7 @@
                                         <td>'.$row["placas"].'</td>
                                         <td>'.$row["modelo"].'</td>
                                         <td>
-                                            <a href="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a href="#" data-id="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                                             <a data-id="'.$row["numero_serie"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                                             <a data-id="'.$row["numero_serie"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                         </td>
