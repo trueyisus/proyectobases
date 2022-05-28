@@ -155,6 +155,21 @@ $(document).ready(function(){
         var idVentaCrear = $(this).data('id');
     });
 
+    $("#btnGuardarNEmpleado").on("click", function(){
+                var venta = $("#ventaNew").val();
+                var producto = $("#productoNew").val();
+                var cliente = $("#clienteNew").val();
+                var cantidad = $("#cantidadNew").val();
+                var total = $("#totalNew").val();
+
+                $.post("nuevaVenta.php", 
+                    {venta:venta,producto:producto,cliente:cliente,fecha:fecha,cantidad:cantidad,total:total},
+                    function(data){
+                        location.reload();
+                    }
+                );
+            }); 
+
         //FUNCION VER VENTA
         $(".view").on("click", function () {
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
@@ -195,6 +210,9 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="btnAgregarVenta">Agregar nueva venta</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -263,6 +281,64 @@ $(document).ready(function(){
             </div>
         </div>        
     </div>  
+
+    <!-- ESTE ES EL MODAL PARA AGREGAR UN NUEVO REGISTRO -->
+    <div class="modal fade" id="agregarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Agregar Venta</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="productoNew">Id Producto:</label>
+                        <select class="form-select" aria-label="Default select example" id="productoNew">
+                        <option selected>Seleccione un producto:</option>
+                            <?php
+                                $strPlantas = "";
+                                $resultPlantas = pg_query($dbconn, "SELECT * FROM bdii.producto");
+                                while ($row = pg_fetch_assoc($resultPlantas)){
+                                    $strPlantas .= "<option value='".$row["id_producto"]."'>".$row["id_producto"]."</option>";
+                                }
+                                echo $strPlantas;  
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteNew">Cliente:</label>
+                        <select class="form-select" aria-label="Default select example" id="clienteNew">
+                        <option selected>Seleccione un cliente:</option>
+                            <?php
+                                $strPlantas = "";
+                                $resultPlantas = pg_query($dbconn, "SELECT * FROM bdii.cliente");
+                                while ($row = pg_fetch_assoc($resultPlantas)){
+                                    $strPlantas .= "<option value='".$row["id_cliente"]."'>".$row["id_cliente"]."</option>";
+                                }
+                                echo $strPlantas;  
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidadNew">Cantidad:</label>
+                        <input type="text" class="form-control" id="cantidadNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="totalNew">Total:</label>
+                        <input type="text" class="form-control" id="totalNew">
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarNEmpleado">Guardar Nuevo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     
     <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
     <div class="modal fade bd-example-modal-lg" id="viewVentaModal" tabindex="-1" role="dialog"
