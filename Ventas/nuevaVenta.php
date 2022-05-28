@@ -2,7 +2,7 @@
     include("../database/conexion.php");
     $venta = $_POST["venta"];
     $producto = intval($_POST["producto"]);
-    $cliente = intval$_POST["cliente"]);
+    $cliente = intval($_POST["cliente"]);
     $cantidad = $_POST["cantidad"];
     $total = $_POST["correo"];
     
