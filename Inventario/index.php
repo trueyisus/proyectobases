@@ -1,10 +1,24 @@
+<?php
+    include("../database/conexion.php");
+    $limit = 100;
+    $noPagina = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $inicioConsulta = ($noPagina - 1) * $limit;
+
+    $resultCount = pg_query($dbconn, "SELECT COUNT(*) FROM bdii.contabilidad");
+    $renglonCount = pg_fetch_row($resultCount);
+    $paginas = ceil($renglonCount[0] / $limit);
+
+    if($noPagina > $paginas || $noPagina < 1){
+        header("Location: index.php?page=1");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inventario</title>
+    <title>Envios</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -129,28 +143,83 @@
         }    
     </style>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
-
-            //FUNCION EDITAR EMPLEADO
-            $(".edit").on("click", function(){
-                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#editarEmpleadoModal').modal('show'); 
-                
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
-                var idEmpleadoEditar = $(this).data('id');
+            
+            //FUNCION DE AGREGAR ENVIO NUEVO
+            $("#btnAgregarPlanta").on("click", function(){
+                $('#newPlantaModal').modal('show'); 
             });
 
-            //FUNCION ELIMINAR EMPLEADO
-            $(".delete").on("click", function(){
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A ELIMINAR
-                var idEmpleadoEliminar = $(this).data('id');
-                
-                //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el usuario con id "+idEmpleadoEliminar+"?</p>");
-                
+
+            //FUNCION EDITAR ENVIO
+                $(".edit").on("click", function () {
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#eliminarEmpleadoModal').modal('show'); 
+                $('#editPlantaModal').modal('show');
+
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
+                var codigoSeguimientoE = $(this).data('id');
+                var idVentaE = $("#rowPlanta-"+codigoSeguimientoE+" #idVentaE").text();
+                var fechaEnvioE = $("#rowPlanta-"+codigoSeguimientoE+" #fechaEnvioE").text();
+                var origenE = $("#rowPlanta-"+codigoSeguimientoE+" #origenE").text();
+                var destinoE = $("#rowPlanta-"+codigoSeguimientoE+" #destinoE").text();
+                var costoEnvioE = $("#rowPlanta-"+codigoSeguimientoE+" #costoEnvioE").text();
+                var estadoEnvioE = $("#rowPlanta-"+codigoSeguimientoE+" #estadoEnvioE").text();
+
+                $("#codigoSeguimientoEd").val(codigoSeguimientoE);
+                $("#idVentaEd").val(idVentaE);
+                $("#fechaEnvioEd").val(fechaEnvioE);
+                $("#origenEd").val(origenE);
+                $("#destinoEd").val(destinoE);
+                $("#costoEnvioEd").val(costoEnvioE);
+                $("#estadoEnvioEd").val(estadoEnvioE );
+            });
+
+            //FUNCION VER ENVIO
+            $(".view").on("click", function () {
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#viewFacturaModal').modal('show');
+
+               //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
+
+               var idInventario = $(this).data('id');
+
+               $.post("informacionInventario.php", {idInventario: idInventario}, 
+               function(data){
+               $("#h3FactiraInformacion").html("Informacion de Inventario: "+ idInventario);
+              $("#divInformacionFactura").html(data);
+              }
+              
+              );
+            });
+
+            $("#btnGuardarEditPlanta").on("click", function () {
+                var codigoSeguimientoEd = $("#codigoSeguimientoEd").val();;
+                var idVentaEd= $("#idVentaEd").val();
+                var fechaEnvioEd = $("#fechaEnvioEd").val();
+                var origenEd = $("#origenEd").val();
+                var destinoEd = $("#destinoEd").val();
+                var costoEnvioEd = $("#costoEnvioEd").val();
+                var estadoEnvioEd = $("#estadoEnvioEd").val();
+
+                $.post("editarEnvio.php", {codigoSeguimientoEd:codigoSeguimientoEd, idVentaEd:idVentaEd,fechaEnvioEd:fechaEnvioEd, origenEd:origenEd, destinoEd:destinoEd, costoEnvioEd:costoEnvioEd, estadoEnvioEd:estadoEnvioEd },
+                    function(data){
+                        location.reload();
+                    }
+                );
+            });
+
+            $("#btnNuevaPlanta").on("click", function () {
+                var idAlmacen = $("#idAlmacen").val();
+                var idInmobiliario = $("#idInmobiliario").val();
+                var id_producto = $("#id_producto").val();
+                var cantidadProducto = $("#cantidadProducto").val();
+
+                $.post("nuevoInventario.php", {idAlmacen:idAlmacen,idInmobiliario:idInmobiliario, id_producto:id_producto, cantidadProducto:cantidadProducto},
+                    function(data){
+                        location.reload();
+                    }
+                );
             });
         });
     </script>
@@ -162,7 +231,7 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-8"><h2>Inventario</h2></div>
+                        <div class="col-sm-8"><h2>Envios</h2></div>
                         <div class="col-sm-4">
                             <div class="search-box">
                                 <i class="material-icons">&#xE8B6;</i>
@@ -171,80 +240,176 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="btnAgregarPlanta">Agregar Envio</button>
+                </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>Id Inventario</th>
-                            <th>Id Almacen<i class="fa fa-sort"></i></th>
-                            <th>Id inmobiliario</th>
-                            <th>Id Producto<i class="fa fa-sort"></i></th>
-                            <th>Cantidad de Producto</th>
+                            <th>ID Inventario</th>
+                            <th>ID Almacen<i class="fa fa-sort"></i></th>
+                            <th>ID Inmobiliario</th>
+                            <th>ID Producto<i class="fa fa-sort"></i></th>
+                            <th>Cantidad Producto</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>29</td>
-                            <td>314</td>
-                            <td>759</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>   
-                        
-                        <tr>
-                            <td>2</td>
-                            <td>64</td>
-                            <td>924</td>
-                            <td>3</td>
-                            <td>14</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="2" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="2" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>     
-
+                        <?php
+                            $resultEnvio = pg_query($dbconn, "SELECT * FROM bdii.inventario ORDER BY id_inventario LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultEnvio)){
+                                echo '
+                                    <tr>
+                                        <td>'.$row["id_inventario"].'</td>
+                                        <td>'.$row["id_almacen"].'</td>
+                                        <td>'.$row["id_inmobiliario"].'</td>
+                                        <td>'.$row["id_producto"].'</td>
+                                        <td>'.$row["cantidad_producto"].'</td>
+                                        <td>
+                                            <a href="#" data-id="'.$row["id_inventario"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a href="#" data-id="'.$row["id_inventario"].'"  class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        ?>   
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                     <ul class="pagination">
-                        <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                        <?php
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina - 1).'"><i class="fa fa-angle-double-left"></i></a></li>
+                            ';
+
+                            for($i = $noPagina ; $i <= ($noPagina + 4) ; $i++){
+                                if($i <= $paginas){
+                                    if($i == $noPagina){
+                                        echo '
+                                            <li class="page-item active"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }else{
+                                        echo '
+                                            <li class="page-item"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }
+                                }
+                            }
+
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina + 1).'"><i class="fa fa-angle-double-right"></i></a></li>
+                            ';
+                        ?>
                     </ul>
                 </div>
             </div>
         </div>        
     </div>  
-    
-    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
-    <div class="modal fade" id="editarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+    <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="viewFacturaModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Editar Inventario</h3>
+                    <h3 class="modal-title" id="h3FactiraInformacion"></h3>
+                </div>
+                <div class="modal-body" id="divInformacionFactura">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESTE ES EL MODAL PARA NUEVO EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="newPlantaModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Agregar Inventario</h3>
                 </div>
                 <div class="modal-body">
+
+                    <table class="table table-hover">
                     <div class="form-group">
-                        <label for="cantidadProducto">Cantidad de Producto</label>
-                        <input type="text" class="form-control" id="cantidadProducto"/>
-                    </div>
+                            <label for="idAlmacen">ID Almacen</label>
+                            <input type="text" class="form-control" id="idAlmacen"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="idInmobiliario">ID Inmobiliario:</label>
+                            <input type="text" class="form-control" id="idInmobiliario"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_producto">ID Producto</label>
+                            <input type="text" class="form-control" id="id_producto"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidadProducto">Cantidad Producto</label>
+                            <input type="text" class="form-control" id="cantidadProducto"></input>
+                        </div>
+                    </table>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnNuevaPlanta">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="editPlantaModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Envio</h3>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table table-hover">
+                        <div class="form-group">
+                            <label for="codigoSeguimientoE">ID inventario:</label>
+                            <input type="text" class="form-control" id="codigoSeguimientoE" disabled></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="idVentaE">ID almacen:</label>
+                            <input type="text" class="form-control" id="idVentaE"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaEnvioE">ID inmobiliario:</label>
+                            <input type="text" class="form-control" id="fechaEnvioE"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="origenE">ID Producto:</label>
+                            <input type="text" class="form-control" id="origenE"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="destinoE">Cantidad Producto:</label>
+                            <input type="text" class="form-control" id="destinoE"></input>
+                        </div>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnGuardarEditPlanta">Guardar</button>
                 </div>
             </div>
         </div>
@@ -273,4 +438,11 @@
 
 </body>
 </html>
+<?php
+    /*
+    ESTA PARTE ES PARA CERRAR LA CONEXION CON LA BASE DE DATOS
+    ESTO CON EL FIN DE NO CONSUMIR MUCHOS RECURSOS DEL EQUIPO
+    */
+    pg_close($dbconn);
+?>
 
