@@ -1,6 +1,6 @@
 <?php
     include("../database/conexion.php");
-    $idVenta = $_POST["idAuto"];
+    $idVenta = $_POST["idVenta"];
 
     $result = pg_query($dbconn, "SELECT * FROM bdii.venta, bdii.producto, bdii.cliente WHERE bdii.venta.id_producto = bdii.producto.id_producto AND bdii.venta.id_cliente = bdii.cliente.id_cliente AND bdii.venta.id_venta ='$idVenta'");
     $renglon = pg_fetch_row($result);
