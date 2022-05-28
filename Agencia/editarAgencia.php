@@ -5,6 +5,6 @@
     $nombre = $_POST["nombre"];
     $direccion = $_POST["direccion"];
 
-	$query = "UPDATE bdii.agencia SET almacen = '$almacen', nombre = '$nombre', direccion ='$direccion' WHERE idAgencia = $idAgencia";
+	$query = "UPDATE bdii.agencia SET nombre = '$nombre', direccion ='$direccion' WHERE idAgencia = $idAgencia";
 	$result = pg_query($dbconn, $query);
 ?>
