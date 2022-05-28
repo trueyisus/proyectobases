@@ -383,7 +383,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnGuardarEditAutobus">Guardar Cambios</button>
                 </div>
             </div>
         </div>
