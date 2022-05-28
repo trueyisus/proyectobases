@@ -325,7 +325,7 @@
                             <option selected>Seleccione una planta:</option>
                             <?php
                                 $strChofer = "";
-                                $resulChofer = pg_query($dbconn, "SELECT * FROM bdii.chofer");
+                                $resultChofer = pg_query($dbconn, "SELECT * FROM bdii.chofer");
                                 while ($row = pg_fetch_assoc($resultChofer)){
                                     $strChofer .= "<option value='".$row["id_chofer"]."'>".$row["id_chofer"]."</option>";
                                 }
