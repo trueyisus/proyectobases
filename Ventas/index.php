@@ -147,29 +147,29 @@ $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 
     //FUNCION CREAR VENTA
-    $("#create").on("click", function(){
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#crearVentaModal').modal('show'); 
+    $("#btnAgregarVenta").on("click", function(){
+        //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+        $('#crearVentaModal').modal('show'); 
             
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A EDITAR
-            var idVentaCrear = $(this).data('id');
-        });
+        //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A EDITAR
+        var idVentaCrear = $(this).data('id');
+    });
 
         //FUNCION VER VENTA
         $(".view").on("click", function () {
-                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#viewVentaModal').modal('show');
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#viewVentaModal').modal('show');
 
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA
-                var idVenta = $(this).data('id');
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA
+            var idVenta = $(this).data('id');
 
-                $.post("informacionVentas.php", {idVenta: idVenta}, 
-                    function(data){
-                        $("#h3VentasInformacion").html("Informacion de ventas: "+idVenta);
-                        $("#divInformacionVentas").html(data);
-                    }
-                );
-            });
+            $.post("informacionVentas.php", {idVenta: idVenta}, 
+                function(data){
+                    $("#h3VentasInformacion").html("Informacion de ventas: "+idVenta);
+                    $("#divInformacionVentas").html(data);
+                }
+            );
+        });
 
 });
 </script>
