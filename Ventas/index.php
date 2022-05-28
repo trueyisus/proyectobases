@@ -293,32 +293,32 @@ $(document).ready(function(){
                     <h3 class="modal-title" id="exampleModalLabel">Agregar Venta</h3>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="productoNew">Id Producto:</label>
+                <div class="form-group">
+                        <label for="productoNew">Seleccione un producto:</label>
                         <select class="form-select" aria-label="Default select example" id="productoNew">
-                        <option selected>Seleccione un producto:</option>
-                            <?php
-                                $strPlantas = "";
-                                $resultPlantas = pg_query($dbconn, "SELECT * FROM bdii.producto");
-                                while ($row = pg_fetch_assoc($resultPlantas)){
-                                    $strPlantas .= "<option value='".$row["id_producto"]."'>".$row["id_producto"]."</option>";
-                                }
-                                echo $strPlantas;  
-                            ?>
+                            <option selected>Seleccione un producto:</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5r</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="clienteNew">Cliente:</label>
-                        <select class="form-select" aria-label="Default select example" id="clienteNew">
-                        <option selected>Seleccione un cliente:</option>
-                            <?php
-                                $strPlantas = "";
-                                $resultPlantas = pg_query($dbconn, "SELECT * FROM bdii.cliente");
-                                while ($row = pg_fetch_assoc($resultPlantas)){
-                                    $strPlantas .= "<option value='".$row["id_cliente"]."'>".$row["id_cliente"]."</option>";
-                                }
-                                echo $strPlantas;  
-                            ?>
+                        <label for="AreaEmpleadoNew">Seleccione un cliente:</label>
+                        <select class="form-select" aria-label="Default select example" id="AreaEmpleadoNew">
+                            <option selected>Seleccione un cliente:</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
                         </select>
                     </div>
                     <div class="form-group">
