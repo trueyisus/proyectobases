@@ -163,7 +163,7 @@ $(document).ready(function(){
                 var total = $("#totalNew").val();
 
                 $.post("nuevaVenta.php", 
-                    {venta:venta,producto:producto,cliente:cliente,fecha:fecha,cantidad:cantidad,total:total},
+                    {venta:venta,producto:producto,cliente:cliente,cantidad:cantidad,total:total},
                     function(data){
                         location.reload();
                     }
