@@ -308,8 +308,8 @@ $(document).ready(function(){
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="AreaEmpleadoNew">Seleccione un cliente:</label>
-                        <select class="form-select" aria-label="Default select example" id="AreaEmpleadoNew">
+                        <label for="clienteNew">Seleccione un cliente:</label>
+                        <select class="form-select" aria-label="Default select example" id="clienteNew">
                             <option selected>Seleccione un cliente:</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
