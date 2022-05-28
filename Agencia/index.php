@@ -146,14 +146,6 @@
     $(document).ready(function(){
 	    $('[data-toggle="tooltip"]').tooltip();
 
-        //FUNCION CREAR AGENCIA
-        $("#create").on("click", function(){
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#crearAgenciaModal').modal('show'); 
-            
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA AGENCIA A EDITAR
-            var idAgenciaCrear = $(this).data('id');
-        });
 
         //FUNCION VER VENTA
         $(".view").on("click", function () {
@@ -190,16 +182,26 @@
 
         $("#btnGuardarEditAgencia").on("click", function () {
             var idAgencia = $("#idAgenciaEdit").val();;
-            var almacen = $("#idAlmacenEdit").val();
             var nombre = $("#nombreEdit").val();
             var direccion = $("#direccionEdit").val();
 
-            $.post("editarAgencia.php", {idAgencia:idAgencia, almacen:almacen, nombre:nombre, direccion:direccion},
+            $.post("editarAgencia.php", {idAgencia:idAgencia, nombre:nombre, direccion:direccion},
                 function(data){
                     location.reload();
                 }
             );
-        });     
+        });  
+        
+        $("#btnNuevaAgencia").on("click", function () {
+            var nombre = $("#nombreAgenciaNew").val();
+            var direccion = $("#direccionAgenciaNew").val();
+
+            $.post("nuevaAgencia.php", {nombre:nombre,direccion:direccion},
+                function(data){
+                    location.reload();
+                }
+            );
+        });
     });
 </script>
 
@@ -224,10 +226,6 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- BOTON PARA LA CREACION DE REGISTROS -->
-                <div>
-                    <button type="button" id="create" class="btn btn-primary">Nueva Agencia</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -291,49 +289,6 @@ $(document).ready(function(){
     </div>    
 </div>     
 
-<!-- MODAL PARA CREAR REGISTRO-->
-<div class="modal fade" id="crearAgenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Crear Agencia</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IdAgencia">Id Agencia:</label>
-                        <input type="text" class="form-control" id="IdAgencia">
-                    </div>
-                    <div class="form-group">
-                        <label for="IdInventario">Id inventario:</label>
-                        <input type="text" class="form-control" id="IdInventario" >
-                    </div>
-                    <div class="form-group">
-                        <label for="IdImportacion">Id Importación:</label>
-                        <input type="text" class="form-control" id="IdImportacion" >
-                    </div>
-                    <div class="form-group">
-                        <label for="IdAlmacen">Id Almacen:</label>
-                        <input type="text" class="form-control" id="IdAlmacen" >
-                    </div>
-                    <div class="form-group">
-                        <label for="nombreAgencia">Nombre Agencia:</label>
-                        <input type="text" class="form-control" id="nombreAgencia" >
-                    </div>
-                    <div class="form-group">
-                        <label for="direccion">Dirección Agencia:</label>
-                        <input type="text" class="form-control" id="direccion" >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
     <div class="modal fade" id="editarAgenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -348,11 +303,11 @@ $(document).ready(function(){
                 <div class="modal-body">
                     <table class="table table-hover">
                         <div class="form-group">
-                            <label for="IdAgenciaEdit">Id Agencia:</label>
+                            <label for="idAgenciaEdit">Id Agencia:</label>
                             <input type="text" class="form-control" id="idAgenciaEdit" disabled></input>
                         </div>
                         <div class="form-group">
-                            <label for="IdAlmacenEdit">Id Almacen:</label>
+                            <label for="idAlmacenEdit">Id Almacen:</label>
                             <input type="text" class="form-control" id="idAlmacenEdit" disabled></input>
                         </div>
                         <div class="form-group">
@@ -367,7 +322,7 @@ $(document).ready(function(){
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnGuardarEditAgencia">Guardar Cambios</button>
                 </div>
             </div>
         </div>
