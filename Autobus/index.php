@@ -252,7 +252,7 @@
                                         <td ="idmodelo">'.$row["modelo"].'</td>
                                         <td>
                                             <a href="#" data-id="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                            <a data-id="'.$row["numero_serie"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                            <a href="#" data-id="'.$row["numero_serie"].'" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                                         </td>
                                     </tr>
                                 ';
