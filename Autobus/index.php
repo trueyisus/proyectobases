@@ -156,6 +156,11 @@
             var idAutobusCrear = $(this).data('id');
         });
 
+        //FUNCION EDITAR EMPLEADO
+        $(".view").on("click", function () {
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#viewAutobusModal').modal('show');
+
         //FUNCION EDITAR AUTOBUS
         $(".edit").on("click", function(){
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
