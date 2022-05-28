@@ -156,6 +156,11 @@
             var idAutobusCrear = $(this).data('id');
         });
 
+        //FUNCION EDITAR EMPLEADO
+        $(".view").on("click", function () {
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#viewAutobusModal').modal('show');
+
         //FUNCION EDITAR AUTOBUS
         $(".edit").on("click", function(){
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
@@ -163,6 +168,14 @@
             
             //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
             var idAutobusEditar = $(this).data('id');
+
+            $.post("informacionAutobus.php", {idAutobusEditar: idAutobusEditar}, 
+                function(data){
+                    $("#h3AutobusInformacion").html("Informacion de autobus: "+idAutobusEditar);
+                    $("#divInformacionAutobus").html(data);
+                }
+            );
+
         });
 
         //FUNCION ELIMINAR AUTOBUS
@@ -340,7 +353,7 @@ $(document).ready(function(){
         </div>
     </div>
     
-    <!--ESTE MODAL ES PARA ELIMINAR UN INMOBILIARIO-->
+    <!--ESTE MODAL ES PARA ELIMINAR UN AUTOBUS-->
     <div class="modal fade" id="eliminarAutobusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -356,6 +369,27 @@ $(document).ready(function(){
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="viewAutobusModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="h3AutobusInformacion"></h3>
+                </div>
+                <div class="modal-body" id="divInformacionAutobus">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
