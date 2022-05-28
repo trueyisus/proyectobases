@@ -385,7 +385,7 @@ $(document).ready(function(){
                     </button>
                     <h3 class="modal-title" id="h3AutobusInformacion"></h3>
                 </div>
-                <div class="modal-body" id="divAutobusFactura">
+                <div class="modal-body" id="divInformacionAutobus">
 
                 </div>
                 <div class="modal-footer">
