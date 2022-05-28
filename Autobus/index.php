@@ -339,22 +339,24 @@
                     <h3 class="modal-title" id="exampleModalLabel">Editar Autobus</h3>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="idAutobusEdit">Número de serie:</label>
-                        <input type="text" class="form-control" id="idAutobusEdit" disabled></input>
-                    </div>
-                    <div class="form-group">
-                        <label for="IdChoferEdit">Id chofer:</label>
-                        <input type="text" class="form-control" id="idChoferEdit" disabled></input>
-                    </div>
-                    <div class="form-group">
-                        <label for="placasEdit">Placas:</label>
-                        <input type="text" class="form-control" id="placasEdit" ></input>
-                    </div>
-                    <div class="form-group">
-                        <label for="modeloEdit">Modelo:</label>
-                        <input type="text" class="form-control" id="modeloEdit" ></input>
-                    </div>
+                    <table class="table table-hover">
+                        <div class="form-group">
+                            <label for="idAutobusEdit">Número de serie:</label>
+                            <input type="text" class="form-control" id="idAutobusEdit" disabled></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="IdChoferEdit">Id chofer:</label>
+                            <input type="text" class="form-control" id="idChoferEdit" disabled></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="placasEdit">Placas:</label>
+                            <input type="text" class="form-control" id="placasEdit" ></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloEdit">Modelo:</label>
+                            <input type="text" class="form-control" id="modeloEdit" ></input>
+                        </div>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
