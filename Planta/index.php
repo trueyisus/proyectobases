@@ -1,3 +1,19 @@
+<?php
+    include("../database/conexion.php");
+    $limit = 100;
+    $noPagina = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $inicioConsulta = ($noPagina - 1) * $limit;
+
+    $resultCount = pg_query($dbconn, "SELECT COUNT(*) FROM bdii.planta");
+    $renglonCount = pg_fetch_row($resultCount);
+    $paginas = ceil($renglonCount[0] / $limit);
+
+    if($noPagina > $paginas || $noPagina < 1){
+        header("Location: index.php?page=1");
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -160,15 +176,51 @@
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
 
+            //FUNCION DE AGREGAR EMPLEADO NUEVO
+            $("#btnAgregarPlanta").on("click", function(){
+                $('#newPlantaModal').modal('show'); 
+            });
+
             //FUNCION EDITAR EMPLEADO
-            $(".view").on("click", function () {
+            $(".edit").on("click", function () {
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#viewFacturaModal').modal('show');
+                $('#editPlantaModal').modal('show');
 
                 //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
-                var idEmpleadoEditar = $(this).data('id');
+                var idPlantaEditar = $(this).data('id');
+                var nombrePlanta = $("#rowPlanta-"+idPlantaEditar+" #nombrePlanta").text();
+                var direccionPlanta = $("#rowPlanta-"+idPlantaEditar+" #direccionPlanta").text();
+
+                $("#idPlantaEdit").val(idPlantaEditar);
+                $("#nombrePlantaEdit").val(nombrePlanta);
+                $("#direccionPlantaEdit").val(direccionPlanta);
+            });
+
+            $("#btnGuardarEditPlanta").on("click", function () {
+                var idPlanta = $("#idPlantaEdit").val();;
+                var nombre = $("#nombrePlantaEdit").val();
+                var direccion = $("#direccionPlantaEdit").val();
+
+                $.post("editarPlanta.php", {idPlanta:idPlanta, nombre:nombre,direccion:direccion},
+                    function(data){
+                        location.reload();
+                    }
+                );
+            });
+
+            $("#btnNuevaPlanta").on("click", function () {
+                var nombre = $("#nombrePlantaNew").val();
+                var direccion = $("#direccionPlantaNew").val();
+
+                $.post("nuevaPlanta.php", {nombre:nombre,direccion:direccion},
+                    function(data){
+                        location.reload();
+                    }
+                );
             });
         });
+
+        
     </script>
 
 </head>
@@ -190,67 +242,68 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="btnAgregarPlanta">Agregar nueva planta</button>
+                </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Tipo de gasto <i class="fa fa-sort"></i></th>
-                            <th>Costos</th>
-                            <th>Tipo de estado financiero <i class="fa fa-sort"></i></th>
-                            <th>Ingresos</th>
-                            <th>Empleado</th>
+                            <th>Nombre Planta <i class="fa fa-sort"></i></th>
+                            <th>Direccion</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Thomas garcia</td>
-                            <td>89 Chiaroscuro Rd.</td>
-                            <td>Portland</td>
-                            <td>972987654320</td>
-                            <td>Mexico</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i
-                                        class="material-icons">&#xE417;</i></a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>Thomas garcia</td>
-                            <td>89 Chiaroscuro Rd.</td>
-                            <td>Portland</td>
-                            <td>972987654320</td>
-                            <td>Mexico</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i
-                                        class="material-icons">&#xE417;</i></a>
-                                <a data-id="2" href="#" class="delete" title="Delete" data-toggle="tooltip"><i
-                                        class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>
-
+                        <?php
+                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.planta ORDER BY id_planta LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultEmpleados)){
+                                echo '
+                                    <tr id="rowPlanta-'.$row["id_planta"].'">
+                                        <td>'.$row["id_planta"].'</td>
+                                        <td id="nombrePlanta">'.$row["nombre_planta"].'</td>
+                                        <td id="direccionPlanta">'.$row["direccion"].'</td>
+                                        <td>
+                                            <a href="#" data-id="'.$row["id_planta"].'"  class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        ?>  
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                     <ul class="pagination">
-                        <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a>
-                        </li>
+                        <?php
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina - 1).'"><i class="fa fa-angle-double-left"></i></a></li>
+                            ';
+
+                            for($i = $noPagina ; $i <= ($noPagina + 4) ; $i++){
+                                if($i <= $paginas){
+                                    if($i == $noPagina){
+                                        echo '
+                                            <li class="page-item active"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }else{
+                                        echo '
+                                            <li class="page-item"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }
+                                }
+                            }
+
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina + 1).'"><i class="fa fa-angle-double-right"></i></a></li>
+                            ';
+                        ?>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
-    <div class="modal fade bd-example-modal-lg" id="viewFacturaModal" tabindex="-1" role="dialog"
+    <!-- ESTE ES EL MODAL PARA NUEVO EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="newPlantaModal" tabindex="-1" role="dialog"
         aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -258,95 +311,73 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Informacion Factura</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Agregar Planta</h3>
                 </div>
                 <div class="modal-body">
 
                     <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Tipo de gasto: </th>
-                                <td>Mark</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Costos: </th>
-                                <td>Jacob</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Tipo de estado financiero: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Ingresos: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Empleado: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>                           
-                            <tr>
-                                <th scope="row">Telefono: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>  
-                            <tr>                      
-                                <th scope="row">Correo electronico: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>                            
-                                <th scope="row">Direccion: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>                            
-                                <th scope="row">Sueldo: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <!--ESTA PARTE SERA OPCIONL YA QUE ESTO SOLO ES EN CASO DE QUE SEA UNA VENTA DE UN PRODUCTO-->
-                            <tr>
-                                <th scope="row">ID Producto: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Descripcion: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Tipo: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Fecha: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Cantidad: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Precio: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Tipo de entrega: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Forma de pago: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Referencia: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                        </tbody>
+                        <div class="form-group">
+                            <label for="nombrePlantaNew">Nombre de la planta:</label>
+                            <input type="text" class="form-control" id="nombrePlantaNew"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionPlantaNew">Direccion de la planta:</label>
+                            <input type="text" class="form-control" id="direccionPlantaNew" ></input>
+                        </div>
                     </table>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnNuevaPlanta">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="editPlantaModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Planta</h3>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table table-hover">
+                        <div class="form-group">
+                            <label for="idPlantaEdit">Id Planta:</label>
+                            <input type="text" class="form-control" id="idPlantaEdit" disabled></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombrePlantaEdit">Nombre de la planta:</label>
+                            <input type="text" class="form-control" id="nombrePlantaEdit"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionPlantaEdit">Direccion de la planta:</label>
+                            <input type="text" class="form-control" id="direccionPlantaEdit" ></input>
+                        </div>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnGuardarEditPlanta">Guardar</button>
                 </div>
             </div>
         </div>
     </div>
 </body>
-
 </html>
+
+<?php
+    /*
+    ESTA PARTE ES PARA CERRAR LA CONEXION CON LA BASE DE DATOS
+    ESTO CON EL FIN DE NO CONSUMIR MUCHOS RECURSOS DEL EQUIPO
+    */
+    pg_close($dbconn);
+?>
