@@ -1,3 +1,17 @@
+<?php
+    include("../database/conexion.php");
+    $limit = 100;
+    $noPagina = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $inicioConsulta = ($noPagina - 1) * $limit;
+
+    $resultCount = pg_query($dbconn, "SELECT COUNT(*) FROM bdii.contabilidad");
+    $renglonCount = pg_fetch_row($resultCount);
+    $paginas = ceil($renglonCount[0] / $limit);
+
+    if($noPagina > $paginas || $noPagina < 1){
+        header("Location: index.php?page=1");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,18 +146,18 @@
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
 
-            //FUNCION EDITAR EMPLEADO
+            //FUNCION EDITAR ENVIO
             $(".edit").on("click", function(){
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
                 $('#editarEmpleadoModal').modal('show'); 
                 
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL ENVIO A EDITAR
                 var idEmpleadoEditar = $(this).data('id');
             });
 
             //FUNCION ELIMINAR EMPLEADO
             $(".delete").on("click", function(){
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A ELIMINAR
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL ENVIO A ELIMINAR
                 var idEmpleadoEliminar = $(this).data('id');
                 
                 //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
@@ -184,48 +198,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>230</td>
-                            <td>29/Febrero/2022</td>
-                            <td>China</td>
-                            <td>Mexico</td>
-                            <td>900035</td>
-                            <td>Entregado</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>   
-                        
-                        <tr>
-                            <td>2</td>
-                            <td>912</td>
-                            <td>19/Mayo/2022</td>
-                            <td>Rusia</td>
-                            <td>Mexico</td>
-                            <td>78475</td>
-                            <td>En camino</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="2" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="2" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>     
-
+                        <?php
+                            $resultEnvio = pg_query($dbconn, "SELECT * FROM bdii.envio ORDER BY codigo_seguimiento LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultEnvio)){
+                                echo '
+                                    <tr>
+                                        <td>'.$row["codigo_seguimiento"].'</td>
+                                        <td>'.$row["id_venta"].'</td>
+                                        <td>'.$row["fecha_envio"].'</td>
+                                        <td>'.$row["origen"].'</td>
+                                        <td>'.$row["destino"].'</td>
+                                        <td>'.$row["costo_envio"].'</td>
+                                        <td>'.$row["estado_envio"].'</td>
+                                        <td>
+                                            <a href="#" data-id="'.$row["codigo_seguimiento"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        ?>   
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                     <ul class="pagination">
-                        <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                        <?php
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina - 1).'"><i class="fa fa-angle-double-left"></i></a></li>
+                            ';
+
+                            for($i = $noPagina ; $i <= ($noPagina + 4) ; $i++){
+                                if($i <= $paginas){
+                                    if($i == $noPagina){
+                                        echo '
+                                            <li class="page-item active"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }else{
+                                        echo '
+                                            <li class="page-item"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }
+                                }
+                            }
+
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina + 1).'"><i class="fa fa-angle-double-right"></i></a></li>
+                            ';
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -295,4 +313,11 @@
 
 </body>
 </html>
+<?php
+    /*
+    ESTA PARTE ES PARA CERRAR LA CONEXION CON LA BASE DE DATOS
+    ESTO CON EL FIN DE NO CONSUMIR MUCHOS RECURSOS DEL EQUIPO
+    */
+    pg_close($dbconn);
+?>
 
