@@ -148,9 +148,9 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             //FUNCION CREAR AUTOBUS
-            $("#create").on("click", function(){
+            $("#btnAgregarAutobus").on("click", function(){
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#crearAutobusModal').modal('show'); 
+            $('#newAutobusModal').modal('show'); 
             
                 //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
                 var idAutobusCrear = $(this).data('id');
@@ -201,6 +201,19 @@
                     }
                 );
             });
+
+            $("#btnAgregarAutobus").on("click", function () {
+                var serie = $("#numeroserieNew").val();
+                var chofernew = $("#choferNew").val();
+                var placasnew = $("#placasNew").val();
+                var modelonew = $("#modeloNew").val();
+
+                $.post("nuevoAutobus.php", {serie:serie,chofernew:chofernew,placasnew:placasnew,modelonew:modelonew},
+                    function(data){
+                        location.reload();
+                    }
+                );
+            });
         });
     </script>
 
@@ -228,7 +241,7 @@
                 </div>
                 <!-- BOTON PARA LA CREACION DE REGISTROS -->
                 <div>
-                    <button type="button" id="create" class="btn btn-primary">Nuevo Autobus</button>
+                    <button type="button" id="btnAgregarAutobus" class="btn btn-primary">Nuevo Autobus</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -292,7 +305,7 @@
     </div>  
     
     <!-- MODAL PARA CREAR REGISTRO-->
-    <div class="modal fade" id="crearAutobusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="newAutobusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -321,7 +334,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAgregarAutobus">Guardar</button>
                 </div>
             </div>
         </div>
