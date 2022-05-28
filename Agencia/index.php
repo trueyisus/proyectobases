@@ -146,14 +146,6 @@
     $(document).ready(function(){
 	    $('[data-toggle="tooltip"]').tooltip();
 
-        //FUNCION CREAR AGENCIA
-        $("#btnAgregarAgencia").on("click", function(){
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#crearAgenciaModal').modal('show'); 
-            
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA AGENCIA A EDITAR
-            var idAgenciaCrear = $(this).data('id');
-        });
 
         //FUNCION VER VENTA
         $(".view").on("click", function () {
@@ -301,33 +293,6 @@ $(document).ready(function(){
     </div>    
 </div>     
 
-<!-- MODAL PARA CREAR REGISTRO-->
-<div class="modal fade" id="crearAgenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Crear Agencia</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="nombreAgenciaNew">Nombre Agencia:</label>
-                        <input type="text" class="form-control" id="nombreAgenciaNew" >
-                    </div>
-                    <div class="form-group">
-                        <label for="direccionAgenciaNew">Dirección Agencia:</label>
-                        <input type="text" class="form-control" id="direccionAgenciaNew" >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnNuevaAgencia">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
     <div class="modal fade" id="editarAgenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
