@@ -220,7 +220,7 @@ $(document).ready(function(){
                     </thead>
                     <tbody>
                     <?php
-                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.agenia ORDER BY id_agencia LIMIT $limit OFFSET $inicioConsulta");
+                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.agencia ORDER BY id_agencia LIMIT $limit OFFSET $inicioConsulta");
                             while ($row = pg_fetch_assoc($resultEmpleados)){
                                 echo '
                                     <tr id="rowAgencias-'.$row["id_agencia"].'">
