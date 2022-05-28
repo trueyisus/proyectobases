@@ -346,30 +346,24 @@ $(document).ready(function(){
                     <h3 class="modal-title" id="exampleModalLabel">Editar Agencia</h3>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IdAgencia">Id Agencia:</label>
-                        <input type="text" class="form-control" id="IdAgencia">
-                    </div>
-                    <div class="form-group">
-                        <label for="IdInventario">Id inventario:</label>
-                        <input type="text" class="form-control" id="IdInventario" >
-                    </div>
-                    <div class="form-group">
-                        <label for="IdImportacion">Id Importación:</label>
-                        <input type="text" class="form-control" id="IdImportacion" >
-                    </div>
-                    <div class="form-group">
-                        <label for="IdAlmacen">Id Almacen:</label>
-                        <input type="text" class="form-control" id="IdAlmacen" >
-                    </div>
-                    <div class="form-group">
-                        <label for="nombreAgencia">Nombre Agencia:</label>
-                        <input type="text" class="form-control" id="nombreAgencia" >
-                    </div>
-                    <div class="form-group">
-                        <label for="direccion">Dirección Agencia:</label>
-                        <input type="text" class="form-control" id="direccion" >
-                    </div>
+                    <table class="table table-hover">
+                        <div class="form-group">
+                            <label for="IdAgenciaEdit">Id Agencia:</label>
+                            <input type="text" class="form-control" id="IdAgenciaEdit" disable></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="IdAlmacenEdit">Id Almacen:</label>
+                            <input type="text" class="form-control" id="IdAlmacenEdit" ></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombreEdit">Nombre Agencia:</label>
+                            <input type="text" class="form-control" id="nombreEdit" ></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionEdit">Dirección Agencia:</label>
+                            <input type="text" class="form-control" id="direccionEdit" ></input>
+                        </div>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
