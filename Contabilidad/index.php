@@ -1,3 +1,18 @@
+<?php
+    include("../database/conexion.php");
+    $limit = 100;
+    $noPagina = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $inicioConsulta = ($noPagina - 1) * $limit;
+
+    $resultCount = pg_query($dbconn, "SELECT COUNT(*) FROM bdii.contabilidad");
+    $renglonCount = pg_fetch_row($resultCount);
+    $paginas = ceil($renglonCount[0] / $limit);
+
+    if($noPagina > $paginas || $noPagina < 1){
+        header("Location: index.php?page=1");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -166,7 +181,14 @@
                 $('#viewFacturaModal').modal('show');
 
                 //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
-                var idEmpleadoEditar = $(this).data('id');
+                var idFactura = $(this).data('id');
+
+                $.post("informacionFactura.php", {idFactura: idFactura}, 
+                    function(data){
+                        $("#h3FactiraInformacion").html("Informacion de factura: "+idFactura);
+                        $("#divInformacionFactura").html(data);
+                    }
+                );
             });
         });
     </script>
@@ -198,51 +220,53 @@
                             <th>Costos</th>
                             <th>Tipo de estado financiero <i class="fa fa-sort"></i></th>
                             <th>Ingresos</th>
-                            <th>Empleado</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Thomas garcia</td>
-                            <td>89 Chiaroscuro Rd.</td>
-                            <td>Portland</td>
-                            <td>972987654320</td>
-                            <td>Mexico</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i
-                                        class="material-icons">&#xE417;</i></a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>Thomas garcia</td>
-                            <td>89 Chiaroscuro Rd.</td>
-                            <td>Portland</td>
-                            <td>972987654320</td>
-                            <td>Mexico</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i
-                                        class="material-icons">&#xE417;</i></a>
-                                <a data-id="2" href="#" class="delete" title="Delete" data-toggle="tooltip"><i
-                                        class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>
-
+                        <?php
+                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.contabilidad ORDER BY id_contabilidad LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultEmpleados)){
+                                echo '
+                                    <tr>
+                                        <td>'.$row["id_contabilidad"].'</td>
+                                        <td>'.$row["tipo_gastos"].'</td>
+                                        <td>'.$row["costos"].'</td>
+                                        <td>'.$row["tipo_estado_financiero"].'</td>
+                                        <td>'.$row["ingresos"].'</td>
+                                        <td>
+                                            <a href="#" data-id="'.$row["id_contabilidad"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        ?>   
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                     <ul class="pagination">
-                        <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a>
-                        </li>
+                        <?php
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina - 1).'"><i class="fa fa-angle-double-left"></i></a></li>
+                            ';
+
+                            for($i = $noPagina ; $i <= ($noPagina + 4) ; $i++){
+                                if($i <= $paginas){
+                                    if($i == $noPagina){
+                                        echo '
+                                            <li class="page-item active"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }else{
+                                        echo '
+                                            <li class="page-item"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }
+                                }
+                            }
+
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina + 1).'"><i class="fa fa-angle-double-right"></i></a></li>
+                            ';
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -258,87 +282,9 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Informacion Factura</h3>
+                    <h3 class="modal-title" id="h3FactiraInformacion"></h3>
                 </div>
-                <div class="modal-body">
-
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Tipo de gasto: </th>
-                                <td>Mark</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Costos: </th>
-                                <td>Jacob</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Tipo de estado financiero: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Ingresos: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Empleado: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>                           
-                            <tr>
-                                <th scope="row">Telefono: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>  
-                            <tr>                      
-                                <th scope="row">Correo electronico: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>                            
-                                <th scope="row">Direccion: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>                            
-                                <th scope="row">Sueldo: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <!--ESTA PARTE SERA OPCIONL YA QUE ESTO SOLO ES EN CASO DE QUE SEA UNA VENTA DE UN PRODUCTO-->
-                            <tr>
-                                <th scope="row">ID Producto: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Descripcion: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Tipo: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Fecha: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Cantidad: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Precio: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Tipo de entrega: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Forma de pago: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Referencia: </th>
-                                <td colspan="2">Larry the Bird</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="modal-body" id="divInformacionFactura">
 
                 </div>
                 <div class="modal-footer">
@@ -350,3 +296,10 @@
 </body>
 
 </html>
+<?php
+    /*
+    ESTA PARTE ES PARA CERRAR LA CONEXION CON LA BASE DE DATOS
+    ESTO CON EL FIN DE NO CONSUMIR MUCHOS RECURSOS DEL EQUIPO
+    */
+    pg_close($dbconn);
+?>
