@@ -143,28 +143,23 @@
         }    
     </style>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
 
             //FUNCION EDITAR ENVIO
-            $(".edit").on("click", function(){
+            $(".view").on("click", function () {
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#editarEmpleadoModal').modal('show'); 
-                
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL ENVIO A EDITAR
-                var idEmpleadoEditar = $(this).data('id');
-            });
+                $('#viewFacturaModal').modal('show');
 
-            //FUNCION ELIMINAR EMPLEADO
-            $(".delete").on("click", function(){
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL ENVIO A ELIMINAR
-                var idEmpleadoEliminar = $(this).data('id');
-                
-                //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el usuario con id "+idEmpleadoEliminar+"?</p>");
-                
-                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#eliminarEmpleadoModal').modal('show'); 
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
+                var idEnvio = $(this).data('id');
+
+                $.post("informacionEnvio.php", {idEnvio: idEnvio}, 
+                    function(data){
+                        $("#h3FactiraInformacion").html("Informacion de Envio: "+idEnvio);
+                        $("#divInformacionFactura").html(data);
+                    }
+                );
             });
         });
     </script>
@@ -249,6 +244,28 @@
             </div>
         </div>        
     </div>  
+
+
+    <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="viewFacturaModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="h3FactiraInformacion"></h3>
+                </div>
+                <div class="modal-body" id="divInformacionFactura">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
     <div class="modal fade" id="editarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
