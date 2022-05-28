@@ -341,19 +341,19 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="numeroSerie">Número de serie:</label>
-                        <input type="text" class="form-control" id="numeroSerie" disabled></input>
+                        <input type="text" class="form-control" id="idAutobusEdit" disabled></input>
                     </div>
                     <div class="form-group">
                         <label for="IdChofer">Id chofer:</label>
-                        <input type="text" class="form-control" id="IdChofer" disabled></input>
+                        <input type="text" class="form-control" id="idChoferEdit" disabled></input>
                     </div>
                     <div class="form-group">
                         <label for="placas">Placas:</label>
-                        <input type="text" class="form-control" id="placas" ></input>
+                        <input type="text" class="form-control" id="placasEdit" ></input>
                     </div>
                     <div class="form-group">
                         <label for="modelo">Modelo:</label>
-                        <input type="text" class="form-control" id="modelo" ></input>
+                        <input type="text" class="form-control" id="modeloEdit" ></input>
                     </div>
                 </div>
                 <div class="modal-footer">
