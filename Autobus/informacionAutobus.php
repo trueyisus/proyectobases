@@ -2,7 +2,7 @@
     include("../database/conexion.php");
     $idAuto = $_POST["idAuto"];
 
-    $result = pg_query($dbconn, "SELECT * FROM bdii.autobus, bdii.chofer WHERE bdii.chofer.id_chofer = bdii.autobus.id_chofer AND bdii.autobus.id_chofer = $idAuto");
+    $result = pg_query($dbconn, "SELECT * FROM bdii.autobus, bdii.chofer WHERE bdii.chofer.id_chofer = bdii.autobus.id_chofer AND bdii.autobus.numero_serie = $idAuto");
     $renglon = pg_fetch_row($result);
 
     echo '
