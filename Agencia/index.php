@@ -162,7 +162,28 @@
             
             //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA AGENCIA A EDITAR
             var idAgenciaEditar = $(this).data('id');
+            var idAlmacen = $("#rowAgencias-"+idAgenciaEditar+" #idAlmacen").text();
+            var idnombre = $("#rowAgencias-"+idAgenciaEditar+" #idnombre").text();
+            var iddireccion = $("#rowAgencias-"+idAgenciaEditar+" #iddireccion").text();
+
+            $("#idAgenciaEdit").val(idAutobusEditar);
+            $("#idAlmacenEdit").val(idAlmacen);
+            $("#nombreEdit").val(idnombre);
+            $("#direccionEdit").val(iddireccion);
         });
+
+        $("#btnGuardarEditAutobus").on("click", function () {
+                var idAgencia = $("#idAgenciaEdit").val();;
+                var almacen = $("#idAlmacenEdit").val();
+                var nombre = $("#nombreEdit").val();
+                var direccion = $("#dieccionEdit").val();
+
+                $.post("editarAutobus.php", {idAgencia:idAgencia, almacen:almacen, nombre:nombre, direccion:direccion},
+                    function(data){
+                        location.reload();
+                    }
+                );
+            });
 
         //FUNCION VER VENTA
         $(".view").on("click", function () {
