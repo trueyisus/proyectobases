@@ -227,10 +227,6 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </div>
-                <!-- BOTON PARA LA CREACION DE REGISTROS -->
-                <div>
-                    <button type="button" id="btnAgregarAgencia" class="btn btn-primary">Nueva Agencia</button>
-                </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
