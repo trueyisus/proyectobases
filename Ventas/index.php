@@ -228,7 +228,7 @@ $(document).ready(function(){
                                         <td id="idestado">'.$row["estado_venta"].'</td>
                                         <td id="idtipo">'.$row["tipo_entrega"].'</td>
                                         <td>
-                                            <a href="#" data-id="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a href="#" data-id="'.$row["id_venta"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                                         </td>
                                     </tr>
                                 ';
