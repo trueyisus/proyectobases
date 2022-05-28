@@ -155,6 +155,22 @@
             var idAgenciaCrear = $(this).data('id');
         });
 
+        //FUNCION VER VENTA
+        $(".view").on("click", function () {
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#viewAgenciaModal').modal('show');
+
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA
+            var idAgencia = $(this).data('id');
+
+            $.post("informacionAgencias.php", {idAgencia: idAgencia}, 
+                function(data){
+                    $("#h3AgenciasInformacion").html("Informacion de agencias: "+idAgencia);
+                    $("#divInformacionAgencias").html(data);
+                }
+            );
+        });
+
         //FUNCION EDITAR AGENCIA
         $(".edit").on("click", function(){
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
@@ -173,33 +189,17 @@
         });
 
         $("#btnGuardarEditAgencia").on("click", function () {
-                var idAgencia = $("#idAgenciaEdit").val();;
-                var almacen = $("#idAlmacenEdit").val();
-                var nombre = $("#nombreEdit").val();
-                var direccion = $("#dieccionEdit").val();
+            var idAgencia = $("#idAgenciaEdit").val();;
+            var almacen = $("#idAlmacenEdit").val();
+            var nombre = $("#nombreEdit").val();
+            var direccion = $("#dieccionEdit").val();
 
-                $.post("editarAgencia.php", {idAgencia:idAgencia, almacen:almacen, nombre:nombre, direccion:direccion},
-                    function(data){
-                        location.reload();
-                    }
-                );
-            });
-
-        //FUNCION VER VENTA
-        $(".view").on("click", function () {
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#viewAgenciaModal').modal('show');
-
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA
-            var idAgencia = $(this).data('id');
-
-            $.post("informacionAgencias.php", {idAgencia: idAgencia}, 
+            $.post("editarAgencia.php", {idAgencia:idAgencia, almacen:almacen, nombre:nombre, direccion:direccion},
                 function(data){
-                    $("#h3AgenciasInformacion").html("Informacion de agencias: "+idAgencia);
-                    $("#divInformacionAgencias").html(data);
+                    location.reload();
                 }
             );
-        });
+        });     
     });
 </script>
 
@@ -353,7 +353,7 @@ $(document).ready(function(){
                         </div>
                         <div class="form-group">
                             <label for="IdAlmacenEdit">Id Almacen:</label>
-                            <input type="text" class="form-control" id="IdAlmacenEdit" ></input>
+                            <input type="text" class="form-control" id="IdAlmacenEdit" disabled></input>
                         </div>
                         <div class="form-group">
                             <label for="nombreEdit">Nombre Agencia:</label>
