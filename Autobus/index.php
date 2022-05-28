@@ -202,7 +202,7 @@
                 );
             });
 
-            $("#btnAgregarAutobus").on("click", function () {
+            $("#btnNuevoAutobus").on("click", function () {
                 var serie = $("#numeroserieNew").val();
                 var chofernew = $("#choferNew").val();
                 var placasnew = $("#placasNew").val();
@@ -334,7 +334,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAgregarAutobus">Guardar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnNuevoAutobus">Guardar</button>
                 </div>
             </div>
         </div>
