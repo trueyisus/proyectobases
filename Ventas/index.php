@@ -141,32 +141,44 @@
         margin-top: 6px;
         font-size: 95%;
     }    
-    </style>
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();   
-                    
+</style>
+<script>
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+
+    //FUNCION CREAR VENTA
+    $("#create").on("click", function(){
+            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+            $('#crearVentaModal').modal('show'); 
+            
             //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A EDITAR
-                
+            var idVentaCrear = $(this).data('id');
         });
 
         //FUNCION VER VENTA
         $(".view").on("click", function () {
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#viewVentaModal').modal('show');
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#viewVentaModal').modal('show');
 
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA
-            var idVenta = $(this).data('id');
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA
+                var idVenta = $(this).data('id');
 
-            $.post("informacionVentas.php", {idVenta: idVenta}, 
-                function(data){
-                    $("#h3VentasInformacion").html("Informacion de ventas: "+idVenta);
-                    $("#divInformacionVentas").html(data);
-                }
-            );
-        });
+                $.post("informacionVentas.php", {idVenta: idVenta}, 
+                    function(data){
+                        $("#h3VentasInformacion").html("Informacion de ventas: "+idVenta);
+                        $("#divInformacionVentas").html(data);
+                    }
+                );
+            });
 
-    </script>
+});
+</script>
+
+<script>
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 
 </head>
 <body>
@@ -183,6 +195,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="create">Agregar nueva venta</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -203,7 +218,7 @@
                             $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.venta ORDER BY id_venta LIMIT $limit OFFSET $inicioConsulta");
                             while ($row = pg_fetch_assoc($resultEmpleados)){
                                 echo '
-                                    <tr id="idVenta-'.$row["id_venta"].'">
+                                    <tr id="rowAutobus-'.$row["id_venta"].'">
                                         <td>'.$row["id_venta"].'</td>
                                         <td id="idChofer">'.$row["id_producto"].'</td>
                                         <td id="idplacas">'.$row["id_cliente"].'</td>
@@ -251,6 +266,111 @@
             </div>
         </div>        
     </div>  
+    
+     <!-- MODAL PARA CREAR REGISTRO-->
+<div class="modal fade" id="crearVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Crear Venta</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="IdVenta">Id Venta:</label>
+                        <input type="text" class="form-control" id="IdVenta">
+                    </div>
+                    <div class="form-group">
+                        <label for="IdProducto">Id Producto:</label>
+                        <input type="text" class="form-control" id="IdProducto" >
+                    </div>
+                    <div class="form-group">
+                        <label for="cliente">Cliente:</label>
+                        <input type="text" class="form-control" id="cliente" >
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha:</label>
+                        <input type="text" class="form-control" id="fecha" >
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="text" class="form-control" id="cantidad" >
+                    </div>
+                    <div class="form-group">
+                        <label for="total">Total:</label>
+                        <input type="text" class="form-control" id="total" >
+                    </div>
+                    <div class="form-group">
+                        <label for="estado">Estado:</label>
+                        <input type="text" class="form-control" id="estado" >
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoEntrega">Tipo de entrega:</label>
+                        <input type="text" class="form-control" id="tipoEntrega" >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
+    <div class="modal fade" id="editarVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Venta</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="IdVenta">Id Venta:</label>
+                        <input type="text" class="form-control" id="IdVenta">
+                    </div>
+                    <div class="form-group">
+                        <label for="IdProducto">Id Producto:</label>
+                        <input type="text" class="form-control" id="IdProducto" >
+                    </div>
+                    <div class="form-group">
+                        <label for="cliente">Cliente:</label>
+                        <input type="text" class="form-control" id="cliente" >
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha:</label>
+                        <input type="text" class="form-control" id="fecha" >
+                    </div>
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="text" class="form-control" id="cantidad" >
+                    </div>
+                    <div class="form-group">
+                        <label for="total">Total:</label>
+                        <input type="text" class="form-control" id="total" >
+                    </div>
+                    <div class="form-group">
+                        <label for="estado">Estado:</label>
+                        <input type="text" class="form-control" id="estado" >
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoEntrega">Tipo de entrega:</label>
+                        <input type="text" class="form-control" id="tipoEntrega" >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
     <div class="modal fade bd-example-modal-lg" id="viewVentaModal" tabindex="-1" role="dialog"
