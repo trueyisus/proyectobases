@@ -1,40 +1,28 @@
 <?php
     include("../database/conexion.php");
-    $idAuto = $_POST["idAuto"];
+    $idAgencia = $_POST["idAgencia"];
 
-    $result = pg_query($dbconn, "SELECT * FROM bdii.autobus, bdii.chofer WHERE bdii.chofer.id_chofer = bdii.autobus.id_chofer AND bdii.autobus.numero_serie = '$idAuto'");
+    $result = pg_query($dbconn, "SELECT * FROM bdii.agencia, bdii.almacen WHERE bdii.agencia.id_almacen = bdii.almacen.id_almacen AND bdii.agencia.id_agencia = '$idAgencia'");
     $renglon = pg_fetch_row($result);
 
     echo '
     <table class="table table-hover">
         <tbody>
             <tr>
-                <th scope="row">Numero de serie: </th>
+                <th scope="row">Id agencia: </th>
                 <td>'.$renglon[0].'</td>
             </tr>
             <tr>
-                <th scope="row">Id chofer: </th>
+                <th scope="row">Id almacen: </th>
                 <td>'.$renglon[1].'</td>
             </tr>
             <tr>
-                <th scope="row">Placas: </th>
+                <th scope="row">Nombre agencia: </th>
                 <td colspan="2">'.$renglon[2].'</td>
             </tr>
             <tr>
-                <th scope="row">Modelo: </th>
+                <th scope="row">Direccion: </th>
                 <td colspan="2">'.$renglon[3].'</td>
-            </tr>
-            <tr>
-                <th scope="row">ID empleado: </th>
-                <td colspan="2">'.$renglon[5].'</td>
-            </tr>                           
-            <tr>
-                <th scope="row">Numero de licencia: </th>
-                <td colspan="2">'.$renglon[6].'</td>
-            </tr>
-            <tr>
-                <th scope="row">Expiracion de licencia: </th>
-                <td colspan="2">'.$renglon[7].'</td>
             </tr>
         </tbody>
     </table>
