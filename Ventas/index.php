@@ -1,3 +1,18 @@
+<?php
+    include("../database/conexion.php");
+    $limit = 100;
+    $noPagina = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $inicioConsulta = ($noPagina - 1) * $limit;
+
+    $resultCount = pg_query($dbconn, "SELECT COUNT(*) FROM bdii.venta");
+    $renglonCount = pg_fetch_row($resultCount);
+    $paginas = ceil($renglonCount[0] / $limit);
+
+    if($noPagina > $paginas || $noPagina < 1){
+        header("Location: index.php?page=1");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,26 +155,21 @@ $(document).ready(function(){
             var idVentaCrear = $(this).data('id');
         });
 
-        //FUNCION EDITAR VENTA
-        $(".edit").on("click", function(){
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#editarVentaModal').modal('show'); 
-            
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A EDITAR
-            var idVentaEditar = $(this).data('id');
-        });
+        //FUNCION VER VENTA
+        $(".view").on("click", function () {
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#viewVentaModal').modal('show');
 
-        //FUNCION ELIMINAR VENTA
-        $(".delete").on("click", function(){
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA A ELIMINAR
-            var idVentaEliminar = $(this).data('id');
-            
-            //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-            $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar la venta con id "+ idVentaEliminar +"?</p>");
-            
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#eliminarVentaModal').modal('show'); 
-        });
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA
+                var idVenta = $(this).data('id');
+
+                $.post("informacionVentas.php", {idVenta: idVenta}, 
+                    function(data){
+                        $("#h3VentasInformacion").html("Informacion de ventas: "+idVenta);
+                        $("#divInformacionVentas").html(data);
+                    }
+                );
+            });
 
 });
 </script>
@@ -204,48 +214,53 @@ $(document).ready(function(){
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>1453</td>
-                            <td>12</td>
-                            <td>15/05/2022</td>
-                            <td>8</td>
-                            <td>1547</td>
-                            <td>Pagado</td>
-                            <td>Internacional</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2147</td>
-                            <td>134</td>
-                            <td>15/02/2022</td>
-                            <td>20</td>
-                            <td>7500</td>
-                            <td>Pagado</td>
-                            <td>Internacional</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="2" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="2" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>                          
+                    <?php
+                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.venta ORDER BY id_venta LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultEmpleados)){
+                                echo '
+                                    <tr id="rowAutobus-'.$row["id_venta"].'">
+                                        <td>'.$row["id_venta"].'</td>
+                                        <td id="idChofer">'.$row["id_producto"].'</td>
+                                        <td id="idplacas">'.$row["id_cliente"].'</td>
+                                        <td id="idfecha">'.$row["fecha"].'</td>
+                                        <td id="idcantidad">'.$row["cantidad"].'</td>
+                                        <td id="idprecio">'.$row["precio_venta"].'</td>
+                                        <td id="idestado">'.$row["estado_venta"].'</td>
+                                        <td id="idtipo">'.$row["tipo_entrega"].'</td>
+                                        <td>
+                                            <a href="#" data-id="'.$row["id_venta"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        ?>                                  
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Mostrando <b>2</b> de <b>2</b> elementos</div>
                     <ul class="pagination">
-                        <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                    <?php
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina - 1).'"><i class="fa fa-angle-double-left"></i></a></li>
+                            ';
+
+                            for($i = $noPagina ; $i <= ($noPagina + 4) ; $i++){
+                                if($i <= $paginas){
+                                    if($i == $noPagina){
+                                        echo '
+                                            <li class="page-item active"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }else{
+                                        echo '
+                                            <li class="page-item"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }
+                                }
+                            }
+
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina + 1).'"><i class="fa fa-angle-double-right"></i></a></li>
+                            ';
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -357,22 +372,22 @@ $(document).ready(function(){
         </div>
     </div>
     
-    <!--ESTE MODAL ES PARA ELIMINAR UN INMOBILIARIO-->
-    <div class="modal fade" id="eliminarVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="viewVentaModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">¡Alerta!</h3>
+                    <h3 class="modal-title" id="h3VentasInformacion"></h3>
                 </div>
-                <div id="contenidoModalEliminar" class="modal-body">
+                <div class="modal-body" id="divInformacionVentas">
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

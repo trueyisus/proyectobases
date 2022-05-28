@@ -143,47 +143,72 @@
             font-size: 95%;
         }    
     </style>
-<script>
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
 
-        //FUNCION CREAR AUTOBUS
+            //FUNCION CREAR AUTOBUS
             $("#create").on("click", function(){
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
             $('#crearAutobusModal').modal('show'); 
             
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
-            var idAutobusCrear = $(this).data('id');
-        });
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
+                var idAutobusCrear = $(this).data('id');
+            });
 
-        //FUNCION EDITAR AUTOBUS
-        $(".edit").on("click", function(){
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#editarAutobusModal').modal('show'); 
-            
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
-            var idAutobusEditar = $(this).data('id');
-        });
+            //FUNCION VER AUTOBUS
+            $(".view").on("click", function () {
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#viewAutobusModal').modal('show');
 
-        //FUNCION ELIMINAR AUTOBUS
-        $(".delete").on("click", function(){
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A ELIMINAR
-            var idAutobusEliminar = $(this).data('id');
-            
-            //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-            $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el autobus con id "+ idAutobusEliminar +"?</p>");
-            
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#eliminarAutobusModal').modal('show'); 
-        });
-    });
-</script>
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
+                var idAuto = $(this).data('id');
 
-<script>
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
+                $.post("informacionAutobus.php", {idAuto: idAuto}, 
+                    function(data){
+                        $("#h3AutobusInformacion").html("Informacion de autobus: "+idAuto);
+                        $("#divInformacionAutobus").html(data);
+                    }
+                );
+            });
+
+            //FUNCION EDITAR AUTOBUS
+            $(".edit").on("click", function(){
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#editarAutobusModal').modal('show'); 
+            
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
+                var idAutobusEditar = $(this).data('id');
+                var idChofer = $("#rowAutobus-"+idAutobusEditar+" #idChofer").text();
+                var idplacas = $("#rowAutobus-"+idAutobusEditar+" #idplacas").text();
+                var idmodelo = $("#rowAutobus-"+idAutobusEditar+" #idmodelo").text();
+
+                $("#idAutobusEdit").val(idAutobusEditar);
+                $("#idChoferEdit").val(idChofer);
+                $("#placasEdit").val(idplacas);
+                $("#modeloEdit").val(idmodelo);
+            });
+
+            $("#btnGuardarEditAutobus").on("click", function () {
+                var idAutobus = $("#idAutobusEdit").val();;
+                var chofer = $("#idChoferEdit").val();
+                var placas = $("#placasEdit").val();
+                var modelo = $("#modeloEdit").val();
+
+                $.post("editarAutobus.php", {idAutobus:idAutobus, chofer:chofer, placas:placas, modelo:modelo},
+                    function(data){
+                        location.reload();
+                    }
+                );
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+	        $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
 </head>
 <body>
@@ -220,15 +245,14 @@ $(document).ready(function(){
                             $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.autobus ORDER BY numero_serie LIMIT $limit OFFSET $inicioConsulta");
                             while ($row = pg_fetch_assoc($resultEmpleados)){
                                 echo '
-                                    <tr>
+                                    <tr id="rowAutobus-'.$row["numero_serie"].'">
                                         <td>'.$row["numero_serie"].'</td>
-                                        <td>'.$row["id_chofer"].'</td>
-                                        <td>'.$row["placas"].'</td>
-                                        <td>'.$row["modelo"].'</td>
+                                        <td id="idChofer">'.$row["id_chofer"].'</td>
+                                        <td id="idplacas">'.$row["placas"].'</td>
+                                        <td id="idmodelo">'.$row["modelo"].'</td>
                                         <td>
-                                            <a href="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                            <a data-id="'.$row["numero_serie"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                            <a data-id="'.$row["numero_serie"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                            <a href="#" data-id="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a href="#" data-id="'.$row["numero_serie"].'" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                                         </td>
                                     </tr>
                                 ';
@@ -280,19 +304,19 @@ $(document).ready(function(){
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="numeroSerie">Número de serie:</label>
-                        <input type="text" class="form-control" id="numeroSerie">
+                        <input type="text" class="form-control" id="numeroSerie"></input>
                     </div>
                     <div class="form-group">
                         <label for="IdChofer">Id chofer:</label>
-                        <input type="text" class="form-control" id="IdChofer" >
+                        <input type="text" class="form-control" id="IdChofer" ></input>
                     </div>
                     <div class="form-group">
                         <label for="placas">Placas:</label>
-                        <input type="text" class="form-control" id="placas" >
+                        <input type="text" class="form-control" id="placas" ></input>
                     </div>
                     <div class="form-group">
                         <label for="modelo">Modelo:</label>
-                        <input type="text" class="form-control" id="modelo" >
+                        <input type="text" class="form-control" id="modelo" ></input>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -315,22 +339,24 @@ $(document).ready(function(){
                     <h3 class="modal-title" id="exampleModalLabel">Editar Autobus</h3>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="numeroSerie">Número de serie:</label>
-                        <input type="text" class="form-control" id="numeroSerie">
-                    </div>
-                    <div class="form-group">
-                        <label for="IdChofer">Id chofer:</label>
-                        <input type="text" class="form-control" id="IdChofer" >
-                    </div>
-                    <div class="form-group">
-                        <label for="placas">Placas:</label>
-                        <input type="text" class="form-control" id="placas" >
-                    </div>
-                    <div class="form-group">
-                        <label for="modelo">Modelo:</label>
-                        <input type="text" class="form-control" id="modelo" >
-                    </div>
+                    <table class="table table-hover">
+                        <div class="form-group">
+                            <label for="idAutobusEdit">Número de serie:</label>
+                            <input type="text" class="form-control" id="idAutobusEdit" disabled></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="IdChoferEdit">Id chofer:</label>
+                            <input type="text" class="form-control" id="idChoferEdit" disabled></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="placasEdit">Placas:</label>
+                            <input type="text" class="form-control" id="placasEdit" ></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="modeloEdit">Modelo:</label>
+                            <input type="text" class="form-control" id="modeloEdit" ></input>
+                        </div>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -339,23 +365,23 @@ $(document).ready(function(){
             </div>
         </div>
     </div>
-    
-    <!--ESTE MODAL ES PARA ELIMINAR UN INMOBILIARIO-->
-    <div class="modal fade" id="eliminarAutobusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+
+    <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="viewAutobusModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">¡Alerta!</h3>
+                    <h3 class="modal-title" id="h3AutobusInformacion"></h3>
                 </div>
-                <div id="contenidoModalEliminar" class="modal-body">
+                <div class="modal-body" id="divInformacionAutobus">
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

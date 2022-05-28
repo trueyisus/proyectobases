@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Empleados</title>
+    <title>Choferes</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -147,62 +147,30 @@
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
 
-            //FUNCION DE AGREGAR EMPLEADO NUEVO
-            $("#btnAgregarEmpleado").on("click", function(){
-                $('#agregarEmpleadoModal').modal('show'); 
+            //FUNCION DE AGREGAR CHOFER NUEVO
+            $("#btnAgregarChofer").on("click", function(){
+                $('#agregarChoferModal').modal('show'); 
             });
 
-            //FUNCION EDITAR EMPLEADO
+            //FUNCION EDITAR CHOFER
             $(".edit").on("click", function(){
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#editarEmpleadoModal').modal('show'); 
+                $('#editarChoferModal').modal('show'); 
                 
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
-                var idEmpleadoEditar = $(this).data('id');
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL CHOFER A EDITAR
+                var idChoferEditar = $(this).data('id');
             });
 
-            //FUNCION ELIMINAR EMPLEADO
+            //FUNCION ELIMINAR CHOFER
             $(".delete").on("click", function(){
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A ELIMINAR
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL CHOFER A ELIMINAR
                 var idEmpleadoEliminar = $(this).data('id');
                 
                 //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p class='classEliminarUsuario' data-id='"+idEmpleadoEliminar+"'>¿Esta seguro que quiere Eliminar el usuario con id "+idEmpleadoEliminar+"?</p>");
+                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el usuario con id "+idChoferEliminar+"?</p>");
                 
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
                 $('#eliminarEmpleadoModal').modal('show'); 
-            });
-
-            $("#btnGuardarNEmpleado").on("click", function(){
-                var nombre = $("#nombreEmpleadoNew").val();
-                var apelldioPaterno = $("#apellidoPEmpleadoNew").val();
-                var apellidoMaterno = $("#apellidoMEmpleadoNew").val();
-                var curp = $("#curpEmpleadoNew").val();
-                var telefono = $("#telefonoEmpleadoNew").val();
-                var correo = $("#correoEmpleadoNew").val();
-                var direccion = $("#direccionEmpleadoNew").val();
-                var rfc = $("#rfcEmpleadoNew").val();
-                var idPlanta = $("#plantaEmpleadoNew").val();
-                var idArea = $("#AreaEmpleadoNew").val();
-
-                $.post("nuevoEmpleado.php", 
-                    {nombre:nombre, apelldioPaterno:apelldioPaterno, apellidoMaterno:apellidoMaterno, 
-                        telefono:telefono, correo:correo, direccion:direccion, idArea:idArea, 
-                        idPlanta:idPlanta, curp:curp, rfc:rfc},
-                    function(data){
-                        location.reload();
-                    }
-                );
-            }); 
-
-            $("#btnEliminarEmpleado").on("click", function(){
-                var idEliminarEmpleado = $(".classEliminarUsuario").data("id");
-                $.post("eliminarEmpleado.php", {idEliminarEmpleado:idEliminarEmpleado},
-                    function(data){
-                        console.log(data);
-                        //location.reload();
-                    }
-                );
             });
         });
     </script>
@@ -214,7 +182,7 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-8"><h2>Empleados</h2></div>
+                        <div class="col-sm-8"><h2>Choferes</h2></div>
                         <div class="col-sm-4">
                             <div class="search-box">
                                 <i class="material-icons">&#xE8B6;</i>
@@ -224,7 +192,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-primary" id="btnAgregarEmpleado">Agregar nuevo empleado</button>
+                    <button type="button" class="btn btn-primary" id="btnAgregarChofer">Agregar nuevo chofer</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -234,27 +202,31 @@
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno <i class="fa fa-sort"></i></th>
                             <th>Telefono</th>
+                            <th>no. licencia</th>
+                            <th>exp. licencia</th>
                             <th>Correo <i class="fa fa-sort"></i></th>
                             <th>Direccion</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.empleado WHERE bdii.empleado.activo = true ORDER BY id_empleado LIMIT $limit OFFSET $inicioConsulta");
-                            while ($row = pg_fetch_assoc($resultEmpleados)){
+                            $resultChofer = pg_query($dbconn, "SELECT * FROM bdii.chofer ORDER BY id_chofer LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultChofer)){
                                 echo '
                                     <tr>
-                                        <td>'.$row["id_empleado"].'</td>
+                                        <td>'.$row["id_chofer"].'</td>
                                         <td>'.$row["nombre"].'</td>
                                         <td>'.$row["apellido_paterno"].'</td>
                                         <td>'.$row["apellido_materno"].'</td>
                                         <td>'.$row["telefono"].'</td>
+                                        <td>'.$row["no. licencia"].'</td>
+                                        <td>'.$row["exp. licencia"].'</td>
                                         <td>'.$row["correo"].'</td>
                                         <td>'.$row["direccion"].'</td>
                                         <td>
-                                            <a href="'.$row["id_empleado"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                            <a data-id="'.$row["id_empleado"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                            <a data-id="'.$row["id_empleado"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                            <a href="'.$row["id_chofer"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a data-id="'.$row["id_chofer"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                            <a data-id="'.$row["id_chofer"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                         </td>
                                     </tr>
                                 ';
@@ -294,80 +266,64 @@
     </div>  
     
     <!-- ESTE ES EL MODAL PARA AGREGAR UN NUEVO REGISTRO -->
-    <div class="modal fade" id="agregarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="agregarChoferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Agregar Empleado</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Agregar Chofer</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreEmpleadoNew">Nombre(s)</label>
-                        <input type="text" class="form-control" id="nombreEmpleadoNew">
+                        <label for="nombreChoferNew">Nombre(s)</label>
+                        <input type="text" class="form-control" id="nombreChoferNew">
                     </div>
                     <div class="form-group">
-                        <label for="apellidoPEmpleadoNew">Apellido Paterno:</label>
-                        <input type="text" class="form-control" id="apellidoPEmpleadoNew" >
+                        <label for="apellidoPChoferNew">Apellido Paterno:</label>
+                        <input type="text" class="form-control" id="apellidoPChoferNew" >
                     </div>
                     <div class="form-group">
-                        <label for="apellidoMEmpleadoNew">Apellido Materno</label>
-                        <input type="text" class="form-control" id="apellidoMEmpleadoNew">
+                        <label for="apellidoMChoferNew">Apellido Materno</label>
+                        <input type="text" class="form-control" id="apellidoMChoferNew">
                     </div>
                     <div class="form-group">
-                        <label for="curpEmpleadoNew">CURP</label>
-                        <input type="text" class="form-control" id="curpEmpleadoNew">
+                        <label for="curpChoferNew">CURP</label>
+                        <input type="text" class="form-control" id="curpChoferNew">
                     </div>
                     <div class="form-group">
-                        <label for="rfcEmpleadoNew">RFC</label>
-                        <input type="text" class="form-control" id="rfcEmpleadoNew">
+                        <label for="telefonoChoferNew">Telefono</label>
+                        <input type="text" class="form-control" id="telefonoChoferNew">
                     </div>
                     <div class="form-group">
-                        <label for="telefonoEmpleadoNew">Telefono</label>
-                        <input type="text" class="form-control" id="telefonoEmpleadoNew">
+                        <label for="correoChoferNew">Correo Electronico</label>
+                        <input type="email" class="form-control" id="correoChoferNew">
                     </div>
                     <div class="form-group">
-                        <label for="correoEmpleadoNew">Correo Electronico</label>
-                        <input type="email" class="form-control" id="correoEmpleadoNew">
+                        <label for="direccionChoferNew">Direccion</label>
+                        <input type="text" class="form-control" id="direccionChoferNew">
                     </div>
                     <div class="form-group">
-                        <label for="direccionEmpleadoNew">Direccion</label>
-                        <input type="text" class="form-control" id="direccionEmpleadoNew">
+                        <label for="tipoChoferNew">Tipo Empleado</label>
+                        <input type="text" class="form-control" id="tipoChoferNew">
                     </div>
                     <div class="form-group">
-                        <label for="plantaEmpleadoNew">Planta:</label>
-                        <select class="form-select" aria-label="Default select example" id="plantaEmpleadoNew">
-                            <option selected>Seleccione una planta:</option>
-                            <?php
-                                $strPlantas = "";
-                                $resultPlantas = pg_query($dbconn, "SELECT * FROM bdii.planta");
-                                while ($row = pg_fetch_assoc($resultPlantas)){
-                                    $strPlantas .= "<option value='".$row["id_planta"]."'>".$row["nombre_planta"]."</option>";
-                                }
-                                echo $strPlantas;  
-                            ?>
-                        </select>
+                        <label for="sueldoChoferNew">Sueldo</label>
+                        <input type="text" class="form-control" id="sueldoChoferNew">
                     </div>
                     <div class="form-group">
-                        <label for="AreaEmpleadoNew">Seleccione el area:</label>
-                        <select class="form-select" aria-label="Default select example" id="AreaEmpleadoNew">
-                            <option selected>Seleccione el area:</option>
-                            <option value="1">Transformación</option>
-                            <option value="2">Ensamblado</option>
-                            <option value="3">Pintura</option>
-                            <option value="4">Super Mercado</option>
-                            <option value="5">Motor</option>
-                            <option value="6">Ensamble final</option>
-                            <option value="7">Pruebas</option>
-                            <option value="8">Transporte</option>
-                        </select>
+                        <label for="cargoChoferNew">Cargo</label>
+                        <input type="text" class="form-control" id="cargoChoferNew">
+                    </div>
+                    <div class="form-group">
+                        <label for="prestacionesChoferNew">Prestaciones</label>
+                        <input type="text" class="form-control" id="prestacionesChoferNew">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnGuardarNEmpleado">Guardar Nuevo</button>
+                    <button type="button" class="btn btn-primary">Guardar Nuevo</button>
                 </div>
             </div>
         </div>
@@ -375,59 +331,59 @@
 
 
     <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
-    <div class="modal fade" id="editarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editarChoferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Editar Empleado</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Chofer</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreEmpleadoEdit">Nombre(s)</label>
-                        <input type="text" class="form-control" id="nombreEmpleadoEdit">
+                        <label for="nombreChoferEdit">Nombre(s)</label>
+                        <input type="text" class="form-control" id="nombreChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="apellidoPEmpleadoEdit">Apellido Paterno:</label>
-                        <input type="text" class="form-control" id="apellidoPEmpleadoEdit" >
+                        <label for="apellidoPChoferEdit">Apellido Paterno:</label>
+                        <input type="text" class="form-control" id="apellidoPChoferEdit" >
                     </div>
                     <div class="form-group">
-                        <label for="apellidoMEmpleadoEdit">Apellido Materno</label>
-                        <input type="text" class="form-control" id="apellidoMEmpleadoEdit">
+                        <label for="apellidoMChoferEdit">Apellido Materno</label>
+                        <input type="text" class="form-control" id="apellidoMChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="curpEmpleadoEdit">CURP</label>
-                        <input type="text" class="form-control" id="curpEmpleadoEdit">
+                        <label for="curpChoferEdit">CURP</label>
+                        <input type="text" class="form-control" id="curpChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="telefonoEmpleadoEdit">Telefono</label>
-                        <input type="text" class="form-control" id="telefonoEmpleadoEdit">
+                        <label for="telefonoChoferEdit">Telefono</label>
+                        <input type="text" class="form-control" id="telefonoChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="correoEmpleadoEdit">Correo Electronico</label>
-                        <input type="email" class="form-control" id="correoEmpleadoEdit">
+                        <label for="correoChoferEdit">Correo Electronico</label>
+                        <input type="email" class="form-control" id="correoChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="direccionEmpleadoEdit">Direccion</label>
-                        <input type="text" class="form-control" id="direccionEmpleadoEdit">
+                        <label for="direccionChoferEdit">Direccion</label>
+                        <input type="text" class="form-control" id="direccionChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="tipoEmpleadoEdit">Tipo Empleado</label>
-                        <input type="text" class="form-control" id="tipoEmpleadoEdit">
+                        <label for="tipoChoferEdit">Tipo Empleado</label>
+                        <input type="text" class="form-control" id="tipoChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="sueldoEmpleadoEdit">Sueldo</label>
-                        <input type="text" class="form-control" id="sueldoEmpleadoEdit">
+                        <label for="sueldoChoferEdit">Sueldo</label>
+                        <input type="text" class="form-control" id="sueldoChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="cargoEmpleadoEdit">Cargo</label>
-                        <input type="text" class="form-control" id="cargoEmpleadoEdit">
+                        <label for="cargoChoferEdit">Cargo</label>
+                        <input type="text" class="form-control" id="cargoChoferEdit">
                     </div>
                     <div class="form-group">
-                        <label for="prestacionesEmpleadoEdit">Prestaciones</label>
-                        <input type="text" class="form-control" id="prestacionesEmpleadoEdit">
+                        <label for="prestacionesChoferEdit">Prestaciones</label>
+                        <input type="text" class="form-control" id="prestacionesChoferEdit">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -439,7 +395,7 @@
     </div>
     
     <!--ESTE MODAL ES PARA ELIMINAR UN USUARIO-->
-    <div class="modal fade" id="eliminarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <div class="modal fade" id="eliminarChoferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -453,7 +409,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" id="btnEliminarEmpleado">Eliminar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
                 </div>
             </div>
         </div>

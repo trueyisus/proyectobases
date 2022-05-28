@@ -147,62 +147,30 @@
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
 
-            //FUNCION DE AGREGAR EMPLEADO NUEVO
-            $("#btnAgregarEmpleado").on("click", function(){
-                $('#agregarEmpleadoModal').modal('show'); 
+            //FUNCION DE AGREGAR CLIENTE NUEVO
+            $("#btnAgregarCliente").on("click", function(){
+                $('#agregarClienteModal').modal('show'); 
             });
 
-            //FUNCION EDITAR EMPLEADO
+            //FUNCION EDITAR CLIENTE
             $(".edit").on("click", function(){
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#editarEmpleadoModal').modal('show'); 
+                $('#editarClienteModal').modal('show'); 
                 
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
-                var idEmpleadoEditar = $(this).data('id');
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL CLIENTE A EDITAR
+                var idClienteEditar = $(this).data('id');
             });
 
-            //FUNCION ELIMINAR EMPLEADO
+            //FUNCION ELIMINAR CLIENTE
             $(".delete").on("click", function(){
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A ELIMINAR
-                var idEmpleadoEliminar = $(this).data('id');
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL CLIENTE A ELIMINAR
+                var idClienteEliminar = $(this).data('id');
                 
                 //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p class='classEliminarUsuario' data-id='"+idEmpleadoEliminar+"'>¿Esta seguro que quiere Eliminar el usuario con id "+idEmpleadoEliminar+"?</p>");
+                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el usuario con id "+idClienteEliminar+"?</p>");
                 
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#eliminarEmpleadoModal').modal('show'); 
-            });
-
-            $("#btnGuardarNEmpleado").on("click", function(){
-                var nombre = $("#nombreEmpleadoNew").val();
-                var apelldioPaterno = $("#apellidoPEmpleadoNew").val();
-                var apellidoMaterno = $("#apellidoMEmpleadoNew").val();
-                var curp = $("#curpEmpleadoNew").val();
-                var telefono = $("#telefonoEmpleadoNew").val();
-                var correo = $("#correoEmpleadoNew").val();
-                var direccion = $("#direccionEmpleadoNew").val();
-                var rfc = $("#rfcEmpleadoNew").val();
-                var idPlanta = $("#plantaEmpleadoNew").val();
-                var idArea = $("#AreaEmpleadoNew").val();
-
-                $.post("nuevoEmpleado.php", 
-                    {nombre:nombre, apelldioPaterno:apelldioPaterno, apellidoMaterno:apellidoMaterno, 
-                        telefono:telefono, correo:correo, direccion:direccion, idArea:idArea, 
-                        idPlanta:idPlanta, curp:curp, rfc:rfc},
-                    function(data){
-                        location.reload();
-                    }
-                );
-            }); 
-
-            $("#btnEliminarEmpleado").on("click", function(){
-                var idEliminarEmpleado = $(".classEliminarUsuario").data("id");
-                $.post("eliminarEmpleado.php", {idEliminarEmpleado:idEliminarEmpleado},
-                    function(data){
-                        console.log(data);
-                        //location.reload();
-                    }
-                );
+                $('#eliminarClienteModal').modal('show'); 
             });
         });
     </script>
@@ -214,7 +182,7 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-8"><h2>Empleados</h2></div>
+                        <div class="col-sm-8"><h2>Clientes</h2></div>
                         <div class="col-sm-4">
                             <div class="search-box">
                                 <i class="material-icons">&#xE8B6;</i>
@@ -224,7 +192,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-primary" id="btnAgregarEmpleado">Agregar nuevo empleado</button>
+                    <button type="button" class="btn btn-primary" id="btnAgregarCliente">Agregar nuevo Cliente</button>
                 </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -236,25 +204,27 @@
                             <th>Telefono</th>
                             <th>Correo <i class="fa fa-sort"></i></th>
                             <th>Direccion</th>
+                            <th>Direccion</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.empleado WHERE bdii.empleado.activo = true ORDER BY id_empleado LIMIT $limit OFFSET $inicioConsulta");
+                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.empleado ORDER BY id_empleado LIMIT $limit OFFSET $inicioConsulta");
                             while ($row = pg_fetch_assoc($resultEmpleados)){
                                 echo '
                                     <tr>
-                                        <td>'.$row["id_empleado"].'</td>
+                                        <td>'.$row["id_cliente"].'</td>
                                         <td>'.$row["nombre"].'</td>
                                         <td>'.$row["apellido_paterno"].'</td>
                                         <td>'.$row["apellido_materno"].'</td>
                                         <td>'.$row["telefono"].'</td>
                                         <td>'.$row["correo"].'</td>
                                         <td>'.$row["direccion"].'</td>
+                                        <td>'.$row["rfc"].'</td>
                                         <td>
-                                            <a href="'.$row["id_empleado"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                            <a data-id="'.$row["id_empleado"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                            <a data-id="'.$row["id_empleado"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                            <a href="'.$row["id_cliente"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a data-id="'.$row["id_cliente"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                            <a data-id="'.$row["id_cliente"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                         </td>
                                     </tr>
                                 ';
@@ -294,80 +264,55 @@
     </div>  
     
     <!-- ESTE ES EL MODAL PARA AGREGAR UN NUEVO REGISTRO -->
-    <div class="modal fade" id="agregarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="agregarClienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Agregar Empleado</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Agregar Cliente</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreEmpleadoNew">Nombre(s)</label>
-                        <input type="text" class="form-control" id="nombreEmpleadoNew">
+                        <label for="nombreClienteNew">Nombre(s)</label>
+                        <input type="text" class="form-control" id="nombreClienteNew">
                     </div>
                     <div class="form-group">
-                        <label for="apellidoPEmpleadoNew">Apellido Paterno:</label>
-                        <input type="text" class="form-control" id="apellidoPEmpleadoNew" >
+                        <label for="apellidoPClienteNew">Apellido Paterno:</label>
+                        <input type="text" class="form-control" id="apellidoPClienteNew" >
                     </div>
                     <div class="form-group">
-                        <label for="apellidoMEmpleadoNew">Apellido Materno</label>
-                        <input type="text" class="form-control" id="apellidoMEmpleadoNew">
+                        <label for="apellidoMClienteNew">Apellido Materno</label>
+                        <input type="text" class="form-control" id="apellidoMClienteNew">
                     </div>
                     <div class="form-group">
-                        <label for="curpEmpleadoNew">CURP</label>
-                        <input type="text" class="form-control" id="curpEmpleadoNew">
+                        <label for="curpClienteNew">CURP</label>
+                        <input type="text" class="form-control" id="curpClienteNew">
                     </div>
                     <div class="form-group">
-                        <label for="rfcEmpleadoNew">RFC</label>
-                        <input type="text" class="form-control" id="rfcEmpleadoNew">
+                        <label for="telefonoClienteNew">Telefono</label>
+                        <input type="text" class="form-control" id="telefonoClienteNew">
                     </div>
                     <div class="form-group">
-                        <label for="telefonoEmpleadoNew">Telefono</label>
-                        <input type="text" class="form-control" id="telefonoEmpleadoNew">
+                        <label for="correoClienteNew">Correo Electronico</label>
+                        <input type="email" class="form-control" id="correoClienteNew">
                     </div>
                     <div class="form-group">
-                        <label for="correoEmpleadoNew">Correo Electronico</label>
-                        <input type="email" class="form-control" id="correoEmpleadoNew">
+                        <label for="direccionClienteNew">Direccion</label>
+                        <input type="text" class="form-control" id="direccionClienteNew">
                     </div>
+                   
+                    
                     <div class="form-group">
-                        <label for="direccionEmpleadoNew">Direccion</label>
-                        <input type="text" class="form-control" id="direccionEmpleadoNew">
+                        <label for="cargoClienteNew">rfc</label>
+                        <input type="text" class="form-control" id="cargoClienteNew">
                     </div>
-                    <div class="form-group">
-                        <label for="plantaEmpleadoNew">Planta:</label>
-                        <select class="form-select" aria-label="Default select example" id="plantaEmpleadoNew">
-                            <option selected>Seleccione una planta:</option>
-                            <?php
-                                $strPlantas = "";
-                                $resultPlantas = pg_query($dbconn, "SELECT * FROM bdii.planta");
-                                while ($row = pg_fetch_assoc($resultPlantas)){
-                                    $strPlantas .= "<option value='".$row["id_planta"]."'>".$row["nombre_planta"]."</option>";
-                                }
-                                echo $strPlantas;  
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="AreaEmpleadoNew">Seleccione el area:</label>
-                        <select class="form-select" aria-label="Default select example" id="AreaEmpleadoNew">
-                            <option selected>Seleccione el area:</option>
-                            <option value="1">Transformación</option>
-                            <option value="2">Ensamblado</option>
-                            <option value="3">Pintura</option>
-                            <option value="4">Super Mercado</option>
-                            <option value="5">Motor</option>
-                            <option value="6">Ensamble final</option>
-                            <option value="7">Pruebas</option>
-                            <option value="8">Transporte</option>
-                        </select>
-                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnGuardarNEmpleado">Guardar Nuevo</button>
+                    <button type="button" class="btn btn-primary">Guardar Nuevo</button>
                 </div>
             </div>
         </div>
@@ -375,60 +320,51 @@
 
 
     <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
-    <div class="modal fade" id="editarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editarClienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Editar Empleado</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Cliente</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreEmpleadoEdit">Nombre(s)</label>
-                        <input type="text" class="form-control" id="nombreEmpleadoEdit">
+                        <label for="nombreClienteEdit">Nombre(s)</label>
+                        <input type="text" class="form-control" id="nombreClienteEdit">
                     </div>
                     <div class="form-group">
-                        <label for="apellidoPEmpleadoEdit">Apellido Paterno:</label>
-                        <input type="text" class="form-control" id="apellidoPEmpleadoEdit" >
+                        <label for="apellidoPClienteEdit">Apellido Paterno:</label>
+                        <input type="text" class="form-control" id="apellidoPClienteEdit" >
                     </div>
                     <div class="form-group">
-                        <label for="apellidoMEmpleadoEdit">Apellido Materno</label>
-                        <input type="text" class="form-control" id="apellidoMEmpleadoEdit">
+                        <label for="apellidoMClienteEdit">Apellido Materno</label>
+                        <input type="text" class="form-control" id="apellidoMClienteEdit">
                     </div>
                     <div class="form-group">
-                        <label for="curpEmpleadoEdit">CURP</label>
-                        <input type="text" class="form-control" id="curpEmpleadoEdit">
+                        <label for="curpClienteEdit">CURP</label>
+                        <input type="text" class="form-control" id="curpClienteEdit">
                     </div>
                     <div class="form-group">
-                        <label for="telefonoEmpleadoEdit">Telefono</label>
-                        <input type="text" class="form-control" id="telefonoEmpleadoEdit">
+                        <label for="telefonoClienteEdit">Telefono</label>
+                        <input type="text" class="form-control" id="telefonoClienteEdit">
                     </div>
                     <div class="form-group">
-                        <label for="correoEmpleadoEdit">Correo Electronico</label>
-                        <input type="email" class="form-control" id="correoEmpleadoEdit">
+                        <label for="correoClienteEdit">Correo Electronico</label>
+                        <input type="email" class="form-control" id="correoClienteEdit">
                     </div>
                     <div class="form-group">
-                        <label for="direccionEmpleadoEdit">Direccion</label>
-                        <input type="text" class="form-control" id="direccionEmpleadoEdit">
+                        <label for="direccionClienteEdit">Direccion</label>
+                        <input type="text" class="form-control" id="direccionClienteEdit">
                     </div>
+                    
+                    
                     <div class="form-group">
-                        <label for="tipoEmpleadoEdit">Tipo Empleado</label>
-                        <input type="text" class="form-control" id="tipoEmpleadoEdit">
+                        <label for="cargoClienteEdit">rfc</label>
+                        <input type="text" class="form-control" id="cargoClienteEdit">
                     </div>
-                    <div class="form-group">
-                        <label for="sueldoEmpleadoEdit">Sueldo</label>
-                        <input type="text" class="form-control" id="sueldoEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="cargoEmpleadoEdit">Cargo</label>
-                        <input type="text" class="form-control" id="cargoEmpleadoEdit">
-                    </div>
-                    <div class="form-group">
-                        <label for="prestacionesEmpleadoEdit">Prestaciones</label>
-                        <input type="text" class="form-control" id="prestacionesEmpleadoEdit">
-                    </div>
+                   
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -439,7 +375,7 @@
     </div>
     
     <!--ESTE MODAL ES PARA ELIMINAR UN USUARIO-->
-    <div class="modal fade" id="eliminarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <div class="modal fade" id="eliminaClienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -453,7 +389,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" id="btnEliminarEmpleado">Eliminar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
                 </div>
             </div>
         </div>

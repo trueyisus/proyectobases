@@ -1,10 +1,25 @@
+<?php
+    include("../database/conexion.php");
+    $limit = 100;
+    $noPagina = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $inicioConsulta = ($noPagina - 1) * $limit;
+
+    $resultCount = pg_query($dbconn, "SELECT COUNT(*) FROM bdii.empleado");
+    $renglonCount = pg_fetch_row($resultCount);
+    $paginas = ceil($renglonCount[0] / $limit);
+
+    if($noPagina > $paginas || $noPagina < 1){
+        header("Location: index.php?page=1");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Envios</title>
+    <title>Productos</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -132,22 +147,27 @@
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
 
-            //FUNCION EDITAR EMPLEADO
-            $(".edit").on("click", function(){
-                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-                $('#editarEmpleadoModal').modal('show'); 
-                
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
-                var idEmpleadoEditar = $(this).data('id');
+            //FUNCION DE AGREGAR PRODUCTO NUEVO
+            $("#btnAgregarProducto").on("click", function(){
+                $('#agregarProductoModal').modal('show'); 
             });
 
-            //FUNCION ELIMINAR EMPLEADO
+            //FUNCION EDITAR PRODUCTO
+            $(".edit").on("click", function(){
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#editarProductoModal').modal('show'); 
+                
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL PRODUCTO A EDITAR
+                var idProductoEditar = $(this).data('id');
+            });
+
+            //FUNCION ELIMINAR PRODUCTO
             $(".delete").on("click", function(){
-                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A ELIMINAR
-                var idEmpleadoEliminar = $(this).data('id');
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL PRODUCTO A ELIMINAR
+                var idProductoEliminar = $(this).data('id');
                 
                 //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el usuario con id "+idEmpleadoEliminar+"?</p>");
+                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el PRODUCTO con id "+idProductoEliminar+"?</p>");
                 
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
                 $('#eliminarEmpleadoModal').modal('show'); 
@@ -162,7 +182,7 @@
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-8"><h2>Envios</h2></div>
+                        <div class="col-sm-8"><h2>Productos</h2></div>
                         <div class="col-sm-4">
                             <div class="search-box">
                                 <i class="material-icons">&#xE8B6;</i>
@@ -171,98 +191,130 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="btnAgregarEmpleado">Agregar nuevo Producto</button>
+                </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>Num_Envio</th>
-                            <th>Id_Venta<i class="fa fa-sort"></i></th>
-                            <th>Fecha de Envio</th>
-                            <th>Origen<i class="fa fa-sort"></i></th>
-                            <th>Destino</th>
-                            <th>Consto de Envio<i class="fa fa-sort"></i></th>
-                            <th>Estado del Envio</th>
+                            <th>#</th>
+                            <th>precio</th>
+                            <th>descripcion <i class="fa fa-sort"></i></th>
+                            <th>Tipo <i class="fa fa-sort"></i></th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>230</td>
-                            <td>29/Febrero/2022</td>
-                            <td>China</td>
-                            <td>Mexico</td>
-                            <td>900035</td>
-                            <td>Entregado</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="1" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="1" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>   
-                        
-                        <tr>
-                            <td>2</td>
-                            <td>912</td>
-                            <td>19/Mayo/2022</td>
-                            <td>Rusia</td>
-                            <td>Mexico</td>
-                            <td>78475</td>
-                            <td>En camino</td>
-                            <td>
-                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="2" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="2" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>     
-
+                        <?php
+                            $resultProducto = pg_query($dbconn, "SELECT * FROM bdii.producto ORDER BY id_producto LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultProductos)){
+                                echo '
+                                    <tr>
+                                        <td>'.$row["id_producto"].'</td>
+                                        <td>'.$row["precio"].'</td>
+                                        <td>'.$row["descripcion"].'</td>
+                                        <td>'.$row["tipo"].'</td>
+                                        
+                                        <td>
+                                            <a href="'.$row["id_producto"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a data-id="'.$row["id_producto"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                            <a data-id="'.$row["id_producto"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        ?>   
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                     <ul class="pagination">
-                        <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                        <?php
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina - 1).'"><i class="fa fa-angle-double-left"></i></a></li>
+                            ';
+
+                            for($i = $noPagina ; $i <= ($noPagina + 4) ; $i++){
+                                if($i <= $paginas){
+                                    if($i == $noPagina){
+                                        echo '
+                                            <li class="page-item active"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }else{
+                                        echo '
+                                            <li class="page-item"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }
+                                }
+                            }
+
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina + 1).'"><i class="fa fa-angle-double-right"></i></a></li>
+                            ';
+                        ?>
                     </ul>
                 </div>
             </div>
         </div>        
     </div>  
     
-    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
-    <div class="modal fade" id="editarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- ESTE ES EL MODAL PARA AGREGAR UN NUEVO REGISTRO -->
+    <div class="modal fade" id="agregarProductoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Editar Envios</h3>
+                    <h3 class="modal-title" id="exampleModalLabel">Agregar Producto</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="fechaEnvio">Fecha de Envio</label>
-                        <input type="text" class="form-control" id="fechaEnvio"/>
+                        <label for="precioProductoNew">Precio</label>
+                        <input type="text" class="form-control" id="nombreProductoNew">
                     </div>
                     <div class="form-group">
-                        <label for="origen">Origen</label>
-                        <input type="text" class="form-control" id="origen" >
+                        <label for="descripcionProductoNew">descripcion:</label>
+                        <input type="text" class="form-control" id="descripcionProductoNew" >
                     </div>
                     <div class="form-group">
-                        <label for="destino">Destino</label>
-                        <input type="text" class="form-control" id="destino">
+                        <label for="tipoProductoNew">Tipo</label>
+                        <input type="text" class="form-control" id="tipoProductoNew">
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar Nuevo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
+    <div class="modal fade" id="editarProductoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="exampleModalLabel">Editar Producto</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="precioProductoEdit">Precio</label>
+                        <input type="text" class="form-control" id="precioProductoEdit">
                     </div>
                     <div class="form-group">
-                        <label for="costoEnvio">Costo de envio</label>
-                        <input type="text" class="form-control" id="costoEnvio">
+                        <label for="descripcionProductoEdit">descripcion:</label>
+                        <input type="text" class="form-control" id="descripcionProductoEdit" >
                     </div>
                     <div class="form-group">
-                        <label for="estadoEnvio">Estado el envio</label>
-                        <input type="email" class="form-control" id="estadoEnvio">
+                        <label for="tipoProductoEdit">Tipo</label>
+                        <input type="text" class="form-control" id="tipoProductoEdit">
                     </div>
+                   
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -272,8 +324,8 @@
         </div>
     </div>
     
-    <!--ESTE MODAL ES PARA ELIMINAR UN USUARIO-->
-    <div class="modal fade" id="eliminarEmpleadoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <!--ESTE MODAL ES PARA ELIMINAR UN PRODUCTO-->
+    <div class="modal fade" id="eliminarProductoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -296,3 +348,10 @@
 </body>
 </html>
 
+<?php
+    /*
+    ESTA PARTE ES PARA CERRAR LA CONEXION CON LA BASE DE DATOS
+    ESTO CON EL FIN DE NO CONSUMIR MUCHOS RECURSOS DEL EQUIPO
+    */
+    pg_close($dbconn);
+?>
