@@ -143,60 +143,51 @@
             font-size: 95%;
         }    
     </style>
-<script>
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
 
-        //FUNCION CREAR AUTOBUS
+            //FUNCION CREAR AUTOBUS
             $("#create").on("click", function(){
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
             $('#crearAutobusModal').modal('show'); 
             
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
-            var idAutobusCrear = $(this).data('id');
-        });
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
+                var idAutobusCrear = $(this).data('id');
+            });
 
-        //FUNCION EDITAR EMPLEADO
-        $(".view").on("click", function () {
+            //FUNCION VER AUTOBUS
+            $(".view").on("click", function () {
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
                 $('#viewAutobusModal').modal('show');
 
-        //FUNCION EDITAR AUTOBUS
-        $(".edit").on("click", function(){
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#editarAutobusModal').modal('show'); 
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
+                var idAuto = $(this).data('id');
+
+                $.post("informacionAutobus.php", {idAuto: idAuto}, 
+                    function(data){
+                        $("#h3AutobusInformacion").html("Informacion de autobus: "+idAuto);
+                        $("#divInformacionAutobus").html(data);
+                    }
+                );
+            });
+
+            //FUNCION EDITAR AUTOBUS
+            $(".edit").on("click", function(){
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#editarAutobusModal').modal('show'); 
             
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
-            var idAutobusEditar = $(this).data('id');
-
-            $.post("informacionAutobus.php", {idAutobusEditar: idAutobusEditar}, 
-                function(data){
-                    $("#h3AutobusInformacion").html("Informacion de autobus: "+idAutobusEditar);
-                    $("#divInformacionAutobus").html(data);
-                }
-            );
-
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
+                var idAutobusEditar = $(this).data('id');
+            });
         });
+    </script>
 
-        //FUNCION ELIMINAR AUTOBUS
-        $(".delete").on("click", function(){
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A ELIMINAR
-            var idAutobusEliminar = $(this).data('id');
-            
-            //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-            $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el autobus con id "+ idAutobusEliminar +"?</p>");
-            
-            //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#eliminarAutobusModal').modal('show'); 
+    <script>
+        $(document).ready(function(){
+	        $('[data-toggle="tooltip"]').tooltip();
         });
-    });
-</script>
-
-<script>
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
+    </script>
 
 </head>
 <body>
@@ -348,27 +339,6 @@ $(document).ready(function(){
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary">Guardar Cambios</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!--ESTE MODAL ES PARA ELIMINAR UN AUTOBUS-->
-    <div class="modal fade" id="eliminarAutobusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="exampleModalLabel">¡Alerta!</h3>
-                </div>
-                <div id="contenidoModalEliminar" class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
                 </div>
             </div>
         </div>
