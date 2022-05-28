@@ -166,19 +166,19 @@
             var idnombre = $("#rowAgencias-"+idAgenciaEditar+" #idnombre").text();
             var iddireccion = $("#rowAgencias-"+idAgenciaEditar+" #iddireccion").text();
 
-            $("#idAgenciaEdit").val(idAutobusEditar);
+            $("#idAgenciaEdit").val(idAgenciaEditar);
             $("#idAlmacenEdit").val(idAlmacen);
             $("#nombreEdit").val(idnombre);
             $("#direccionEdit").val(iddireccion);
         });
 
-        $("#btnGuardarEditAutobus").on("click", function () {
+        $("#btnGuardarEditAgencia").on("click", function () {
                 var idAgencia = $("#idAgenciaEdit").val();;
                 var almacen = $("#idAlmacenEdit").val();
                 var nombre = $("#nombreEdit").val();
                 var direccion = $("#dieccionEdit").val();
 
-                $.post("editarAutobus.php", {idAgencia:idAgencia, almacen:almacen, nombre:nombre, direccion:direccion},
+                $.post("editarAgencia.php", {idAgencia:idAgencia, almacen:almacen, nombre:nombre, direccion:direccion},
                     function(data){
                         location.reload();
                     }
@@ -349,7 +349,7 @@ $(document).ready(function(){
                     <table class="table table-hover">
                         <div class="form-group">
                             <label for="IdAgenciaEdit">Id Agencia:</label>
-                            <input type="text" class="form-control" id="IdAgenciaEdit" disable></input>
+                            <input type="text" class="form-control" id="IdAgenciaEdit" disabled></input>
                         </div>
                         <div class="form-group">
                             <label for="IdAlmacenEdit">Id Almacen:</label>
