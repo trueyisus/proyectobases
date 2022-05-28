@@ -348,11 +348,11 @@ $(document).ready(function(){
                 <div class="modal-body">
                     <table class="table table-hover">
                         <div class="form-group">
-                            <label for="IdAgenciaEdit">Id Agencia:</label>
+                            <label for="idAgenciaEdit">Id Agencia:</label>
                             <input type="text" class="form-control" id="idAgenciaEdit" disabled></input>
                         </div>
                         <div class="form-group">
-                            <label for="IdAlmacenEdit">Id Almacen:</label>
+                            <label for="idAlmacenEdit">Id Almacen:</label>
                             <input type="text" class="form-control" id="idAlmacenEdit" disabled></input>
                         </div>
                         <div class="form-group">
