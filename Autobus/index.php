@@ -247,9 +247,9 @@
                                 echo '
                                     <tr id="rowAutobus-'.$row["numero_serie"].'">
                                         <td>'.$row["numero_serie"].'</td>
-                                        <td ="idChofer">'.$row["id_chofer"].'</td>
-                                        <td ="idplacas">'.$row["placas"].'</td>
-                                        <td ="idmodelo">'.$row["modelo"].'</td>
+                                        <td id="idChofer">'.$row["id_chofer"].'</td>
+                                        <td id="idplacas">'.$row["placas"].'</td>
+                                        <td id="idmodelo">'.$row["modelo"].'</td>
                                         <td>
                                             <a href="#" data-id="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                                             <a href="#" data-id="'.$row["numero_serie"].'" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
