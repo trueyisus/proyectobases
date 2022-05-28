@@ -204,11 +204,10 @@
 
             $("#btnNuevoAutobus").on("click", function () {
                 var serie = $("#numeroserieNew").val();
-                var chofernew = $("#choferNew").val();
                 var placasnew = $("#placasNew").val();
                 var modelonew = $("#modeloNew").val();
 
-                $.post("nuevoAutobus.php", {serie:serie,chofernew:chofernew,placasnew:placasnew,modelonew:modelonew},
+                $.post("nuevoAutobus.php", {serie:serie,placasnew:placasnew,modelonew:modelonew},
                     function(data){
                         location.reload();
                     }
@@ -318,10 +317,6 @@
                     <div class="form-group">
                         <label for="numeroSerie">Número de serie:</label>
                         <input type="text" class="form-control" id="numeroSerie"></input>
-                    </div>
-                    <div class="form-group">
-                        <label for="IdChofer">Id chofer:</label>
-                        <input type="text" class="form-control" id="IdChofer" ></input>
                     </div>
                     <div class="form-group">
                         <label for="placas">Placas:</label>
