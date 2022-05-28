@@ -167,10 +167,42 @@
                 var idEmpleadoEliminar = $(this).data('id');
                 
                 //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-                $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar el usuario con id "+idEmpleadoEliminar+"?</p>");
+                $('#contenidoModalEliminar').html("<p class='classEliminarUsuario' data-id='"+idEmpleadoEliminar+"'>¿Esta seguro que quiere Eliminar el usuario con id "+idEmpleadoEliminar+"?</p>");
                 
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
                 $('#eliminarEmpleadoModal').modal('show'); 
+            });
+
+            $("#btnGuardarNEmpleado").on("click", function(){
+                var nombre = $("#nombreEmpleadoNew").val();
+                var apelldioPaterno = $("#apellidoPEmpleadoNew").val();
+                var apellidoMaterno = $("#apellidoMEmpleadoNew").val();
+                var curp = $("#curpEmpleadoNew").val();
+                var telefono = $("#telefonoEmpleadoNew").val();
+                var correo = $("#correoEmpleadoNew").val();
+                var direccion = $("#direccionEmpleadoNew").val();
+                var rfc = $("#rfcEmpleadoNew").val();
+                var idPlanta = $("#plantaEmpleadoNew").val();
+                var idArea = $("#AreaEmpleadoNew").val();
+
+                $.post("nuevoEmpleado.php", 
+                    {nombre:nombre, apelldioPaterno:apelldioPaterno, apellidoMaterno:apellidoMaterno, 
+                        telefono:telefono, correo:correo, direccion:direccion, idArea:idArea, 
+                        idPlanta:idPlanta, curp:curp, rfc:rfc},
+                    function(data){
+                        location.reload();
+                    }
+                );
+            }); 
+
+            $("#btnEliminarEmpleado").on("click", function(){
+                var idEliminarEmpleado = $(".classEliminarUsuario").data("id");
+                $.post("eliminarEmpleado.php", {idEliminarEmpleado:idEliminarEmpleado},
+                    function(data){
+                        console.log(data);
+                        //location.reload();
+                    }
+                );
             });
         });
     </script>
@@ -208,7 +240,7 @@
                     </thead>
                     <tbody>
                         <?php
-                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.empleado ORDER BY id_empleado LIMIT $limit OFFSET $inicioConsulta");
+                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.empleado WHERE bdii.empleado.activo = true ORDER BY id_empleado LIMIT $limit OFFSET $inicioConsulta");
                             while ($row = pg_fetch_assoc($resultEmpleados)){
                                 echo '
                                     <tr>
@@ -289,6 +321,10 @@
                         <input type="text" class="form-control" id="curpEmpleadoNew">
                     </div>
                     <div class="form-group">
+                        <label for="rfcEmpleadoNew">RFC</label>
+                        <input type="text" class="form-control" id="rfcEmpleadoNew">
+                    </div>
+                    <div class="form-group">
                         <label for="telefonoEmpleadoNew">Telefono</label>
                         <input type="text" class="form-control" id="telefonoEmpleadoNew">
                     </div>
@@ -301,25 +337,37 @@
                         <input type="text" class="form-control" id="direccionEmpleadoNew">
                     </div>
                     <div class="form-group">
-                        <label for="tipoEmpleadoNew">Tipo Empleado</label>
-                        <input type="text" class="form-control" id="tipoEmpleadoNew">
+                        <label for="plantaEmpleadoNew">Planta:</label>
+                        <select class="form-select" aria-label="Default select example" id="plantaEmpleadoNew">
+                            <option selected>Seleccione una planta:</option>
+                            <?php
+                                $strPlantas = "";
+                                $resultPlantas = pg_query($dbconn, "SELECT * FROM bdii.planta");
+                                while ($row = pg_fetch_assoc($resultPlantas)){
+                                    $strPlantas .= "<option value='".$row["id_planta"]."'>".$row["nombre_planta"]."</option>";
+                                }
+                                echo $strPlantas;  
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="sueldoEmpleadoNew">Sueldo</label>
-                        <input type="text" class="form-control" id="sueldoEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="cargoEmpleadoNew">Cargo</label>
-                        <input type="text" class="form-control" id="cargoEmpleadoNew">
-                    </div>
-                    <div class="form-group">
-                        <label for="prestacionesEmpleadoNew">Prestaciones</label>
-                        <input type="text" class="form-control" id="prestacionesEmpleadoNew">
+                        <label for="AreaEmpleadoNew">Seleccione el area:</label>
+                        <select class="form-select" aria-label="Default select example" id="AreaEmpleadoNew">
+                            <option selected>Seleccione el area:</option>
+                            <option value="1">Transformación</option>
+                            <option value="2">Ensamblado</option>
+                            <option value="3">Pintura</option>
+                            <option value="4">Super Mercado</option>
+                            <option value="5">Motor</option>
+                            <option value="6">Ensamble final</option>
+                            <option value="7">Pruebas</option>
+                            <option value="8">Transporte</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Nuevo</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarNEmpleado">Guardar Nuevo</button>
                 </div>
             </div>
         </div>
@@ -405,7 +453,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-danger" id="btnEliminarEmpleado">Eliminar</button>
                 </div>
             </div>
         </div>
