@@ -190,7 +190,6 @@
 
         $("#btnGuardarEditAgencia").on("click", function () {
             var idAgencia = $("#idAgenciaEdit").val();;
-            var almacen = $("#idAlmacenEdit").val();
             var nombre = $("#nombreEdit").val();
             var direccion = $("#direccionEdit").val();
 
@@ -367,7 +366,7 @@ $(document).ready(function(){
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-primary" data-dismoss="modal" id="btnGuardarEditAgencia">Guardar Cambios</button>
                 </div>
             </div>
         </div>
