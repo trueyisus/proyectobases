@@ -175,8 +175,10 @@
         $("#btnNuevaPlanta").on("click", function () {
             var cliente = $("#clienteVentaNew").val();
             var cantidad = $("#cantidadVentaNew").val();
+            var estado = $("#estadoVentaNew").val();
+            var tipo = $("#tipoVentaNew").val();
 
-            $.post("nuevaPlanta.php", {nombre:nombre,direccion:direccion},
+            $.post("nuevaPlanta.php", {nombre:nombre,direccion:direccion,estado:estado,tipo:tipo},
                 function(data){
                     location.reload();
                 }
@@ -290,6 +292,14 @@
                         <div class="form-group">
                             <label for="cantidadVentaNew">Cantidad:</label>
                             <input type="text" class="form-control" id="cantidadVentaNew" >
+                        </div>
+                        <div class="form-group">
+                            <label for="estadoVentaNew">Estado de venta:</label>
+                            <input type="text" class="form-control" id="estadoVentaNew" >
+                        </div>
+                        <div class="form-group">
+                            <label for="tipoVentaNew">Tipo de entrega:</label>
+                            <input type="text" class="form-control" id="tipoVentaNew" >
                         </div>
                     </table>
                 </div>
