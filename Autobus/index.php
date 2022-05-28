@@ -321,8 +321,8 @@
                     </div>
                     <div class="form-group">
                         <label for="choferNew">Chofer:</label>
-                        <input class="form-select" aria-label="Default select example" id="choferNew" ></input>
-                            <option selected>Seleccione una planta:</option>
+                        <select class="form-select" aria-label="Default select example" id="choferNew" ></input>
+                            <option selected>Seleccione un chofer:</option>
                             <?php
                                 $strChofer = "";
                                 $resultChofer = pg_query($dbconn, "SELECT * FROM bdii.chofer");
@@ -331,6 +331,7 @@
                                 }
                                 echo $strChofer;  
                             ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="placasNew">Placas:</label>
