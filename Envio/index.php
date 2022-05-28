@@ -189,15 +189,8 @@
                $("#h3FactiraInformacion").html("Informacion de Envio: "+idEnvio);
               $("#divInformacionFactura").html(data);
               }
+              
               );
-
-               var idPlantaEditar = $(this).data('id');
-                var nombrePlanta = $("#rowPlanta-"+idPlantaEditar+" #nombrePlanta").text();
-                var direccionPlanta = $("#rowPlanta-"+idPlantaEditar+" #direccionPlanta").text();
-
-                $("#idPlantaEdit").val(idPlantaEditar);
-                $("#nombrePlantaEdit").val(nombrePlanta);
-                $("#direccionPlantaEdit").val(direccionPlanta);
             });
 
             $("#btnGuardarEditPlanta").on("click", function () {
