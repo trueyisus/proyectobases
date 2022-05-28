@@ -147,7 +147,7 @@
 	    $('[data-toggle="tooltip"]').tooltip();
 
         //FUNCION CREAR AGENCIA
-        $("#create").on("click", function(){
+        $("#btnAgregarAgencia").on("click", function(){
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
             $('#crearAgenciaModal').modal('show'); 
             
@@ -193,12 +193,23 @@
             var nombre = $("#nombreEdit").val();
             var direccion = $("#direccionEdit").val();
 
-            $.post("editarAgencia.php", {idAgencia:idAgencia, almacen:almacen, nombre:nombre, direccion:direccion},
+            $.post("editarAgencia.php", {idAgencia:idAgencia, nombre:nombre, direccion:direccion},
                 function(data){
                     location.reload();
                 }
             );
-        });     
+        });  
+        
+        $("#btnNuevaAgencia").on("click", function () {
+            var nombre = $("#nombreAgenciaNew").val();
+            var direccion = $("#direccionAgenciaNew").val();
+
+            $.post("nuevaAgencia.php", {nombre:nombre,direccion:direccion},
+                function(data){
+                    location.reload();
+                }
+            );
+        });
     });
 </script>
 
@@ -302,33 +313,17 @@ $(document).ready(function(){
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="IdAgencia">Id Agencia:</label>
-                        <input type="text" class="form-control" id="IdAgencia">
+                        <label for="nombreAgenciaNew">Nombre Agencia:</label>
+                        <input type="text" class="form-control" id="nombreAgenciaNew" >
                     </div>
                     <div class="form-group">
-                        <label for="IdInventario">Id inventario:</label>
-                        <input type="text" class="form-control" id="IdInventario" >
-                    </div>
-                    <div class="form-group">
-                        <label for="IdImportacion">Id Importación:</label>
-                        <input type="text" class="form-control" id="IdImportacion" >
-                    </div>
-                    <div class="form-group">
-                        <label for="IdAlmacen">Id Almacen:</label>
-                        <input type="text" class="form-control" id="IdAlmacen" >
-                    </div>
-                    <div class="form-group">
-                        <label for="nombreAgencia">Nombre Agencia:</label>
-                        <input type="text" class="form-control" id="nombreAgencia" >
-                    </div>
-                    <div class="form-group">
-                        <label for="direccion">Dirección Agencia:</label>
-                        <input type="text" class="form-control" id="direccion" >
+                        <label for="direccionAgenciaNew">Dirección Agencia:</label>
+                        <input type="text" class="form-control" id="direccionAgenciaNew" >
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnNuevaAgencia">Guardar</button>
                 </div>
             </div>
         </div>
