@@ -153,6 +153,29 @@
 
 
             //FUNCION EDITAR ENVIO
+                $(".edit").on("click", function () {
+                //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
+                $('#editPlantaModal').modal('show');
+
+                //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A EDITAR
+                var codigoSeguimientoE = $(this).data('id');
+                var idVentaE = $("#rowPlanta-"+codigoSeguimientoE+" #idVentaE").text();
+                var fechaEnvioE = $("#rowPlanta-"+codigoSeguimientoE+" #fechaEnvioE").text();
+                var origenE = $("#rowPlanta-"+codigoSeguimientoE+" #origenE").text();
+                var destinoE = $("#rowPlanta-"+codigoSeguimientoE+" #destinoE").text();
+                var costoEnvioE = $("#rowPlanta-"+codigoSeguimientoE+" #costoEnvioE").text();
+                var estadoEnvioE = $("#rowPlanta-"+codigoSeguimientoE+" #estadoEnvioE").text();
+
+                $("#codigoSeguimientoEd").val(codigoSeguimientoE);
+                $("#idVentaEd").val(idVentaE);
+                $("#fechaEnvioEd").val(fechaEnvioE);
+                $("#origenEd").val(origenE);
+                $("#destinoEd").val(destinoE);
+                $("#costoEnvioEd").val(costoEnvioE);
+                $("#estadoEnvioEd").val(estadoEnvioE );
+            });
+
+            //FUNCION VER ENVIO
             $(".view").on("click", function () {
                 //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
                 $('#viewFacturaModal').modal('show');
@@ -178,11 +201,15 @@
             });
 
             $("#btnGuardarEditPlanta").on("click", function () {
-                var idPlanta = $("#idPlantaEdit").val();;
-                var nombre = $("#nombrePlantaEdit").val();
-                var direccion = $("#direccionPlantaEdit").val();
+                var codigoSeguimientoEd = $("#codigoSeguimientoEd").val();;
+                var idVentaEd= $("#idVentaEd").val();
+                var fechaEnvioEd = $("#fechaEnvioEd").val();
+                var origenEd = $("#origenEd").val();
+                var destinoEd = $("#destinoEd").val();
+                var costoEnvioEd = $("#costoEnvioEd").val();
+                var estadoEnvioEd = $("#estadoEnvioEd").val();
 
-                $.post("editarEnvio.php", {idPlanta:idPlanta, nombre:nombre,direccion:direccion},
+                $.post("editarEnvio.php", {codigoSeguimientoEd:codigoSeguimientoEd, idVentaEd:idVentaEd,fechaEnvioEd:fechaEnvioEd, origenEd:origenEd, destinoEd:destinoEd, costoEnvioEd:costoEnvioEd, estadoEnvioEd:estadoEnvioEd },
                     function(data){
                         location.reload();
                     }
