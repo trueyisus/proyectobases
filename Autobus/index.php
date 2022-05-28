@@ -204,10 +204,11 @@
 
             $("#btnNuevoAutobus").on("click", function () {
                 var serie = $("#numeroserieNew").val();
+                var chofernew = $("#choferNew").val();
                 var placasnew = $("#placasNew").val();
                 var modelonew = $("#modeloNew").val();
 
-                $.post("nuevoAutobus.php", {serie:serie,placasnew:placasnew,modelonew:modelonew},
+                $.post("nuevoAutobus.php", {serie:serie,chofernew:chofernew,placasnew:placasnew,modelonew:modelonew},
                     function(data){
                         location.reload();
                     }
@@ -315,16 +316,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="numeroSerie">Número de serie:</label>
-                        <input type="text" class="form-control" id="numeroSerie"></input>
+                        <label for="numeroserieNew">Número de serie:</label>
+                        <input type="text" class="form-control" id="numeroserieNew"></input>
                     </div>
                     <div class="form-group">
-                        <label for="placas">Placas:</label>
-                        <input type="text" class="form-control" id="placas" ></input>
+                        <label for="choferNew">Chofer:</label>
+                        <input class="form-select" aria-label="Default select example" id="choferNew" ></input>
                     </div>
                     <div class="form-group">
-                        <label for="modelo">Modelo:</label>
-                        <input type="text" class="form-control" id="modelo" ></input>
+                        <label for="placasNew">Placas:</label>
+                        <input type="text" class="form-control" id="placasNew" ></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="modeloNew">Modelo:</label>
+                        <input type="text" class="form-control" id="modeloNew" ></input>
                     </div>
                 </div>
                 <div class="modal-footer">
