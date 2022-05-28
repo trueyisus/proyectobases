@@ -192,7 +192,7 @@
             var idAgencia = $("#idAgenciaEdit").val();;
             var almacen = $("#idAlmacenEdit").val();
             var nombre = $("#nombreEdit").val();
-            var direccion = $("#dieccionEdit").val();
+            var direccion = $("#direccionEdit").val();
 
             $.post("editarAgencia.php", {idAgencia:idAgencia, almacen:almacen, nombre:nombre, direccion:direccion},
                 function(data){
@@ -349,11 +349,11 @@ $(document).ready(function(){
                     <table class="table table-hover">
                         <div class="form-group">
                             <label for="IdAgenciaEdit">Id Agencia:</label>
-                            <input type="text" class="form-control" id="IdAgenciaEdit" disabled></input>
+                            <input type="text" class="form-control" id="idAgenciaEdit" disabled></input>
                         </div>
                         <div class="form-group">
                             <label for="IdAlmacenEdit">Id Almacen:</label>
-                            <input type="text" class="form-control" id="IdAlmacenEdit" disabled></input>
+                            <input type="text" class="form-control" id="idAlmacenEdit" disabled></input>
                         </div>
                         <div class="form-group">
                             <label for="nombreEdit">Nombre Agencia:</label>
