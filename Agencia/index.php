@@ -1,3 +1,18 @@
+<?php
+    include("../database/conexion.php");
+    $limit = 100;
+    $noPagina = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $inicioConsulta = ($noPagina - 1) * $limit;
+
+    $resultCount = pg_query($dbconn, "SELECT COUNT(*) FROM bdii.agencia");
+    $renglonCount = pg_fetch_row($resultCount);
+    $paginas = ceil($renglonCount[0] / $limit);
+
+    if($noPagina > $paginas || $noPagina < 1){
+        header("Location: index.php?page=1");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,16 +164,20 @@
             var idAgenciaEditar = $(this).data('id');
         });
 
-        //FUNCION ELIMINAR AGENCIA
-        $(".delete").on("click", function(){
-            //ESTA PARTE ES PARA PODER OBTENER EL ID DEL EMPLEADO A ELIMINAR
-            var idAgenciaEliminar = $(this).data('id');
-            
-            //LA SIGUIENTE LINEA ES PARA AGREGAR EL TEXTO DENTRO DEL MODAL ELIMINAR
-            $('#contenidoModalEliminar').html("<p>¿Esta seguro que quiere Eliminar la agencia con id "+ idAgenciaEliminar +"?</p>");
-            
+        //FUNCION VER VENTA
+        $(".view").on("click", function () {
             //LA LINEA DE ABAJO ES PARA MOSTRAR EL MODAL
-            $('#eliminarAgenciaModal').modal('show'); 
+            $('#viewAgenciaModal').modal('show');
+
+            //ESTA PARTE ES PARA PODER OBTENER EL ID DE LA VENTA
+            var idAgencia = $(this).data('id');
+
+            $.post("informacionAgencias.php", {idAgencia: idAgencia}, 
+                function(data){
+                    $("#h3AgenciasInformacion").html("Informacion de agencias: "+idAgencia);
+                    $("#divInformacionAgencias").html(data);
+                }
+            );
         });
     });
 </script>
@@ -193,8 +212,6 @@ $(document).ready(function(){
                     <thead>
                         <tr>
                             <th>ID_Agencia</th>
-                            <th>ID_Inventario</th>
-                            <th>ID_Importacion <i class="fa fa-sort"></i></th>
                             <th>ID_Almacen</th>
                             <th>Nombre Agencia</th>
                             <th>Direccion Agencia <i class="fa fa-sort"></i></th>
@@ -202,45 +219,50 @@ $(document).ready(function(){
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>114</td>
-                            <td>MEX-1</td>
-                            <td>A4</td>
-                            <td>Centro</td>
-                            <td>89 Chiaroscuro Rd.</td>
-                            <td>
-                                <a href="#" class="view" title="Ver" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="1" href="#" class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="1" href="#" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>135</td>
-                            <td>MEX-3</td>
-                            <td>A8</td>
-                            <td>Rodeo</td>
-                            <td>C/ Araquil, 67</td>
-                            <td>
-                                <a href="#" class="view" title="Ver" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                <a data-id="2" href="#" class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                <a data-id="2" href="#" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        
+                    <?php
+                            $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.agenia ORDER BY id_agencia LIMIT $limit OFFSET $inicioConsulta");
+                            while ($row = pg_fetch_assoc($resultEmpleados)){
+                                echo '
+                                    <tr id="rowAgencias-'.$row["id_agencia"].'">
+                                        <td>'.$row["id_agencia"].'</td>
+                                        <td id="idAlmacen">'.$row["id_almacen"].'</td>
+                                        <td id="idnombre">'.$row["nombre_agencia"].'</td>
+                                        <td id="iddireccion">'.$row["direccion"].'</td>
+                                        <td>
+                                            <a href="#" data-id="'.$row["id_agencia"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                                            <a href="#" data-id="'.$row["id_agencia"].'" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                        </td>
+                                    </tr>
+                                ';
+                            }
+                        ?>
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Mostrando <b>2</b> de <b>2</b> elementos</div>
                     <ul class="pagination">
-                        <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">4</a></li>
-                        <li class="page-item"><a href="#" class="page-link">5</a></li>
-                        <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                    <?php
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina - 1).'"><i class="fa fa-angle-double-left"></i></a></li>
+                            ';
+
+                            for($i = $noPagina ; $i <= ($noPagina + 4) ; $i++){
+                                if($i <= $paginas){
+                                    if($i == $noPagina){
+                                        echo '
+                                            <li class="page-item active"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }else{
+                                        echo '
+                                            <li class="page-item"><a href="index.php?page='.$i.'" class="page-link">'.$i.'</a></li>
+                                        ';
+                                    }
+                                }
+                            }
+
+                            echo '
+                                <li class="page-item"><a href="index.php?page='.($noPagina + 1).'"><i class="fa fa-angle-double-right"></i></a></li>
+                            ';
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -336,22 +358,22 @@ $(document).ready(function(){
         </div>
     </div>
 
-    <!--ESTE MODAL ES PARA ELIMINAR UN INMOBILIARIO-->
-    <div class="modal fade" id="eliminarAgenciaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
+    <div class="modal fade bd-example-modal-lg" id="viewAgenciaModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="exampleModalLabel">¡Alerta!</h3>
+                    <h3 class="modal-title" id="h3AgenciasInformacion"></h3>
                 </div>
-                <div id="contenidoModalEliminar" class="modal-body">
+                <div class="modal-body" id="divInformacionAgencias">
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
