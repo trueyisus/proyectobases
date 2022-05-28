@@ -179,6 +179,27 @@
             
                 //ESTA PARTE ES PARA PODER OBTENER EL ID DEL AUTOBUS A EDITAR
                 var idAutobusEditar = $(this).data('id');
+                var idChofer = $("#rowAutobus-"+idAutobusEditar+" #idChofer").text();
+                var idplacas = $("#rowAutobus-"+idAutobusEditar+" #idplacas").text();
+                var idmodelo = $("#rowAutobus-"+idAutobusEditar+" #idmodelo").text();
+
+                $("#idAutobusEdit").val(idAutobusEditar);
+                $("#idChoferEdit").val(idChofer);
+                $("#placasEdit").val(idplacas);
+                $("#modeloEdit").val(idmodelo);
+            });
+
+            $("#btnGuardarEditAutobus").on("click", function () {
+                var idAutobus = $("#idAutobusEdit").val();;
+                var chofer = $("#idChoferEdit").val();
+                var placas = $("#placasEdit").val();
+                var modelo = $("#modeloEdit").val();
+
+                $.post("editarAutobus.php", {idAutobus:idAutobus, chofer:chofer, placas:placas, modelo:modelo},
+                    function(data){
+                        location.reload();
+                    }
+                );
             });
         });
     </script>
@@ -224,15 +245,14 @@
                             $resultEmpleados = pg_query($dbconn, "SELECT * FROM bdii.autobus ORDER BY numero_serie LIMIT $limit OFFSET $inicioConsulta");
                             while ($row = pg_fetch_assoc($resultEmpleados)){
                                 echo '
-                                    <tr>
+                                    <tr id="rowAutobus-'.$row["numero_serie"].'">
                                         <td>'.$row["numero_serie"].'</td>
-                                        <td>'.$row["id_chofer"].'</td>
-                                        <td>'.$row["placas"].'</td>
-                                        <td>'.$row["modelo"].'</td>
+                                        <td ="idChofer">'.$row["id_chofer"].'</td>
+                                        <td ="idplacas">'.$row["placas"].'</td>
+                                        <td ="idmodelo">'.$row["modelo"].'</td>
                                         <td>
                                             <a href="#" data-id="'.$row["numero_serie"].'" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                                             <a data-id="'.$row["numero_serie"].'" href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                            <a data-id="'.$row["numero_serie"].'" href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                         </td>
                                     </tr>
                                 ';
@@ -284,19 +304,19 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="numeroSerie">Número de serie:</label>
-                        <input type="text" class="form-control" id="numeroSerie">
+                        <input type="text" class="form-control" id="numeroSerie"></input>
                     </div>
                     <div class="form-group">
                         <label for="IdChofer">Id chofer:</label>
-                        <input type="text" class="form-control" id="IdChofer" >
+                        <input type="text" class="form-control" id="IdChofer" ></input>
                     </div>
                     <div class="form-group">
                         <label for="placas">Placas:</label>
-                        <input type="text" class="form-control" id="placas" >
+                        <input type="text" class="form-control" id="placas" ></input>
                     </div>
                     <div class="form-group">
                         <label for="modelo">Modelo:</label>
-                        <input type="text" class="form-control" id="modelo" >
+                        <input type="text" class="form-control" id="modelo" ></input>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -321,19 +341,19 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="numeroSerie">Número de serie:</label>
-                        <input type="text" class="form-control" id="numeroSerie">
+                        <input type="text" class="form-control" id="numeroSerie" disabled></input>
                     </div>
                     <div class="form-group">
                         <label for="IdChofer">Id chofer:</label>
-                        <input type="text" class="form-control" id="IdChofer" >
+                        <input type="text" class="form-control" id="IdChofer" disabled></input>
                     </div>
                     <div class="form-group">
                         <label for="placas">Placas:</label>
-                        <input type="text" class="form-control" id="placas" >
+                        <input type="text" class="form-control" id="placas" ></input>
                     </div>
                     <div class="form-group">
                         <label for="modelo">Modelo:</label>
-                        <input type="text" class="form-control" id="modelo" >
+                        <input type="text" class="form-control" id="modelo" ></input>
                     </div>
                 </div>
                 <div class="modal-footer">
