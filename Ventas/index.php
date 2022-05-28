@@ -196,9 +196,6 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-primary" id="create">Agregar nueva venta</button>
-                </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
@@ -266,111 +263,6 @@ $(document).ready(function(){
             </div>
         </div>        
     </div>  
-    
-     <!-- MODAL PARA CREAR REGISTRO-->
-<div class="modal fade" id="crearVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Crear Venta</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IdVenta">Id Venta:</label>
-                        <input type="text" class="form-control" id="IdVenta">
-                    </div>
-                    <div class="form-group">
-                        <label for="IdProducto">Id Producto:</label>
-                        <input type="text" class="form-control" id="IdProducto" >
-                    </div>
-                    <div class="form-group">
-                        <label for="cliente">Cliente:</label>
-                        <input type="text" class="form-control" id="cliente" >
-                    </div>
-                    <div class="form-group">
-                        <label for="fecha">Fecha:</label>
-                        <input type="text" class="form-control" id="fecha" >
-                    </div>
-                    <div class="form-group">
-                        <label for="cantidad">Cantidad:</label>
-                        <input type="text" class="form-control" id="cantidad" >
-                    </div>
-                    <div class="form-group">
-                        <label for="total">Total:</label>
-                        <input type="text" class="form-control" id="total" >
-                    </div>
-                    <div class="form-group">
-                        <label for="estado">Estado:</label>
-                        <input type="text" class="form-control" id="estado" >
-                    </div>
-                    <div class="form-group">
-                        <label for="tipoEntrega">Tipo de entrega:</label>
-                        <input type="text" class="form-control" id="tipoEntrega" >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ESTE ES EL MODAL PARA EDITAR EL REGISTRO -->
-    <div class="modal fade" id="editarVentaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="modal-title" id="exampleModalLabel">Editar Venta</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="IdVenta">Id Venta:</label>
-                        <input type="text" class="form-control" id="IdVenta">
-                    </div>
-                    <div class="form-group">
-                        <label for="IdProducto">Id Producto:</label>
-                        <input type="text" class="form-control" id="IdProducto" >
-                    </div>
-                    <div class="form-group">
-                        <label for="cliente">Cliente:</label>
-                        <input type="text" class="form-control" id="cliente" >
-                    </div>
-                    <div class="form-group">
-                        <label for="fecha">Fecha:</label>
-                        <input type="text" class="form-control" id="fecha" >
-                    </div>
-                    <div class="form-group">
-                        <label for="cantidad">Cantidad:</label>
-                        <input type="text" class="form-control" id="cantidad" >
-                    </div>
-                    <div class="form-group">
-                        <label for="total">Total:</label>
-                        <input type="text" class="form-control" id="total" >
-                    </div>
-                    <div class="form-group">
-                        <label for="estado">Estado:</label>
-                        <input type="text" class="form-control" id="estado" >
-                    </div>
-                    <div class="form-group">
-                        <label for="tipoEntrega">Tipo de entrega:</label>
-                        <input type="text" class="form-control" id="tipoEntrega" >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
-                </div>
-            </div>
-        </div>
-    </div>
     
     <!-- ESTE ES EL MODAL PARA VER EL REGISTRO -->
     <div class="modal fade bd-example-modal-lg" id="viewVentaModal" tabindex="-1" role="dialog"
